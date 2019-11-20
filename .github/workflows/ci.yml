@@ -1,0 +1,12 @@
+name: Continious Integration
+on: push
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Install dependencies
+      run: composer install -n --prefer-dist
+    - name: Run PHPUnit unit tests
+      run: vendor/bin/phpunit tests/

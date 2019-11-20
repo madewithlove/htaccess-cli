@@ -23,7 +23,7 @@ final class HtaccessClientTest extends TestCase
 
         $this->assertEquals(
             'http://localhost/foo',
-            $response['output_url']
+            $response->getOutputUrl()
         );
     }
 }

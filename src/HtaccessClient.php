@@ -23,7 +23,7 @@ final class HtaccessClient
         $this->requestFactory = $requestFactory;
     }
 
-    public function test(string $url, string $htaccess)
+    public function test(string $url, string $htaccess): HtaccessResult
     {
         $request = $this->requestFactory->createServerRequest(
             'POST',
@@ -43,6 +43,10 @@ final class HtaccessClient
             ->withBody($body);
 
         $response = $this->httpClient->sendRequest($request);
-        return json_decode($response->getBody()->getContents(), true);
+        $responseData = json_decode($response->getBody()->getContents(), true);
+
+        return new HtaccessResult(
+            $responseData['output_url']
+        );
     }
 }

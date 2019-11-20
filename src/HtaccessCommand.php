@@ -48,6 +48,28 @@ final class HtaccessCommand extends Command
             $htaccess
         );
 
+        $io->table(
+            [
+                'valid',
+                'reached',
+                'met',
+                'line',
+                'message',
+            ],
+            array_map(
+                function (ResultLine $resultLine): array {
+                    return [
+                        $resultLine->isValid(),
+                        $resultLine->wasReached(),
+                        $resultLine->isMet(),
+                        $resultLine->getLine(),
+                        $resultLine->getMessage(),
+                    ];
+                },
+                $result->getLines()
+            )
+        );
+
         $io->success('The output url is "' . $result->getOutputUrl() . '"');
     }
 }

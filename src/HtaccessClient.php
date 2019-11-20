@@ -46,7 +46,19 @@ final class HtaccessClient
         $responseData = json_decode($response->getBody()->getContents(), true);
 
         return new HtaccessResult(
-            $responseData['output_url']
+            $responseData['output_url'],
+            array_map(
+                function (array $line) {
+                    return new ResultLine(
+                        $line['value'],
+                        $line['message'],
+                        $line['isMet'],
+                        $line['isValid'],
+                        $line['wasReached']
+                    );
+                },
+                $responseData['lines']
+            )
         );
     }
 }

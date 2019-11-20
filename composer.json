@@ -7,7 +7,8 @@
         "psr/http-client": "^1.0",
         "psr/http-factory": "^1.0",
         "php-http/guzzle6-adapter": "^2.0",
-        "http-interop/http-factory-guzzle": "^1.0"
+        "http-interop/http-factory-guzzle": "^1.0",
+        "madewithlove/htaccess-api-client": "^1.0"
     },
     "bin": [
         "bin/htaccess"

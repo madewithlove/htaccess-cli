@@ -5,6 +5,9 @@
     "require": {
         "symfony/console": "^4.3"
     },
+    "bin": [
+        "bin/htaccess"
+    ],
     "autoload": {
         "psr-4": {"Madewithlove\\": "src/"}
     },

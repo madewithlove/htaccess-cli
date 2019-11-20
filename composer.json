@@ -4,8 +4,6 @@
     "type": "project",
     "require": {
         "symfony/console": "^4.3",
-        "psr/http-client": "^1.0",
-        "psr/http-factory": "^1.0",
         "php-http/guzzle6-adapter": "^2.0",
         "http-interop/http-factory-guzzle": "^1.0",
         "madewithlove/htaccess-api-client": "^1.0"
@@ -16,11 +14,5 @@
     "autoload": {
         "psr-4": {"Madewithlove\\": "src/"}
     },
-    "autoload-dev": {
-        "psr-4": {"Madewithlove\\": "tests/"}
-    },
-    "license": "GPL-3.0-or-later",
-    "require-dev": {
-        "phpunit/phpunit": "^8.4"
-    }
+    "license": "GPL-3.0-or-later"
 }

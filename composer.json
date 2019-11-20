@@ -1,7 +1,7 @@
 {
     "name": "madewithlove/htaccess",
     "description": "CLI interface for the best htaccess tester in the world.",
-    "type": "project",
+    "type": "package",
     "require": {
         "symfony/console": "^4.3",
         "php-http/guzzle6-adapter": "^2.0",

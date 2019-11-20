@@ -2,6 +2,7 @@
 
 namespace Madewithlove;
 
+use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -9,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class HtaccessCommand extends Command
 {
-    protected static $defaultName = 'run';
+    protected static $defaultName = 'htaccess';
 
     protected function configure()
     {
@@ -22,9 +23,7 @@ final class HtaccessCommand extends Command
         $htaccessFile = getcwd() . '/.htaccess';
 
         if (!file_exists($htaccessFile)) {
-            $output->writeln('<error>We could not find an .htaccess file in the current directory</error>');
-
-            return 1;
+            throw new RuntimeException('We could not find an .htaccess file in the current directory');
         }
 
         $htaccess = file_get_contents(getcwd() . '/.htaccess');

@@ -10,6 +10,6 @@ $application = new Application();
 
 $htaccessCommand = new HtaccessCommand();
 $application->add($htaccessCommand);
-$application->setDefaultCommand($htaccessCommand->getName());
+$application->setDefaultCommand($htaccessCommand->getName(), true);
 
 $application->run();

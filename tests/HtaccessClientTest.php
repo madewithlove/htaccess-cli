@@ -25,5 +25,18 @@ final class HtaccessClientTest extends TestCase
             'http://localhost/foo',
             $response->getOutputUrl()
         );
+
+        $this->assertEquals(
+            [
+                new ResultLine(
+                    'RewriteRule .* /foo [R]',
+                    "The new url is http://localhost/foo\nTest are stopped, a redirect will be made with status code 302",
+                    true,
+                    true,
+                    true
+                ),
+            ],
+            $response->getLines()
+        );
     }
 }

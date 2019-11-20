@@ -18,6 +18,18 @@ final class HtaccessCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('Hello!');
+        $url = $input->getArgument('url');
+        $htaccessFile = getcwd() . '/.htaccess';
+
+        if (!file_exists($htaccessFile)) {
+            $output->writeln('<error>We could not find an .htaccess file in the current directory</error>');
+
+            return 1;
+        }
+
+        $htaccess = file_get_contents(getcwd() . '/.htaccess');
+
+        $output->writeln($htaccess);
+        $output->writeln($url);
     }
 }

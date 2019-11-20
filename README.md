@@ -23,6 +23,8 @@ htaccess http://localhost/foo
 
 Where the url is the request url you want to test your .htaccess file with.
 
+![Screenshot 2019-11-20 at 15 14 09](https://user-images.githubusercontent.com/1398405/69246275-b65a3d80-0ba8-11ea-99b8-f06b7b01b74e.png)
+
 ### Note
 
 The tool simulates only one pass through the server, while Apache will do multiple if you get back

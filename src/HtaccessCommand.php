@@ -7,10 +7,23 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class HtaccessCommand extends Command
 {
+    /**
+     * @var HtaccessClient
+     */
+    private $htaccessClient;
+
     protected static $defaultName = 'htaccess';
+
+    public function __construct(HtaccessClient $htaccessClient)
+    {
+        parent::__construct();
+
+        $this->htaccessClient = $htaccessClient;
+    }
 
     protected function configure()
     {
@@ -19,6 +32,8 @@ final class HtaccessCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $io = new SymfonyStyle($input, $output);
+
         $url = $input->getArgument('url');
         $htaccessFile = getcwd() . '/.htaccess';
 
@@ -28,7 +43,33 @@ final class HtaccessCommand extends Command
 
         $htaccess = file_get_contents(getcwd() . '/.htaccess');
 
-        $output->writeln($htaccess);
-        $output->writeln($url);
+        $result = $this->htaccessClient->test(
+            $url,
+            $htaccess
+        );
+
+        $io->table(
+            [
+                'valid',
+                'reached',
+                'met',
+                'line',
+                'message',
+            ],
+            array_map(
+                function (ResultLine $resultLine): array {
+                    return [
+                        $resultLine->isValid(),
+                        $resultLine->wasReached(),
+                        $resultLine->isMet(),
+                        $resultLine->getLine(),
+                        $resultLine->getMessage(),
+                    ];
+                },
+                $result->getLines()
+            )
+        );
+
+        $io->success('The output url is "' . $result->getOutputUrl() . '"');
     }
 }

@@ -3,12 +3,20 @@
 
 require __DIR__.'/../vendor/autoload.php';
 
+use Http\Adapter\Guzzle6\Client;
+use Http\Factory\Guzzle\ServerRequestFactory;
+use Madewithlove\HtaccessClient;
 use Madewithlove\HtaccessCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
 
-$htaccessCommand = new HtaccessCommand();
+$htaccessClient = new HtaccessClient(
+    new Client(),
+    new ServerRequestFactory()
+);
+
+$htaccessCommand = new HtaccessCommand($htaccessClient);
 $application->add($htaccessCommand);
 $application->setDefaultCommand($htaccessCommand->getName(), true);
 

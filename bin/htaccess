@@ -1,10 +1,15 @@
 #!/usr/bin/env php
-<?php
+<?php declare(strict_types=1);
 
 require __DIR__.'/../vendor/autoload.php';
 
+use Madewithlove\HtaccessCommand;
 use Symfony\Component\Console\Application;
 
 $application = new Application();
+
+$htaccessCommand = new HtaccessCommand();
+$application->add($htaccessCommand);
+$application->setDefaultCommand($htaccessCommand->getName());
 
 $application->run();

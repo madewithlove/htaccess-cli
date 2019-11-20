@@ -5,6 +5,9 @@
     "require": {
         "symfony/console": "^4.3"
     },
+    "autoload": {
+        "psr-4": {"Madewithlove\\": "src/"}
+    },
     "license": "GNU GPLv3",
     "require-dev": {
     }

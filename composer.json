@@ -3,7 +3,8 @@
     "description": "CLI interface for the best htaccess tester in the world.",
     "type": "project",
     "require": {
-        "symfony/console": "^4.3"
+        "symfony/console": "^4.3",
+        "psr/http-client": "^1.0"
     },
     "autoload": {
         "psr-4": {"Madewithlove\\": "src/"}

@@ -12,5 +12,6 @@
     },
     "license": "GNU GPLv3",
     "require-dev": {
+        "phpunit/phpunit": "^8.4"
     }
 }

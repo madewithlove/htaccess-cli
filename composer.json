@@ -1,0 +1,11 @@
+{
+    "name": "madewithlove/htaccess",
+    "description": "CLI interface for the best htaccess tester in the world.",
+    "type": "project",
+    "require": {
+        "symfony/console": "^4.3"
+    },
+    "license": "GNU GPLv3",
+    "require-dev": {
+    }
+}

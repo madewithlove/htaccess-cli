@@ -16,5 +16,8 @@ jobs:
           DOCKER_HUB_LOGIN: ${{ secrets.DOCKER_HUB_LOGIN }}
           DOCKER_HUB_PASS: ${{ secrets.DOCKER_HUB_PASS }}
         run: docker login -u ${DOCKER_HUB_LOGIN} -p ${DOCKER_HUB_PASS}
-      - name: Get tag name
-        run: echo ${GITHUB_REF##*/:1}
+      - name: Get version name
+        id: get_version
+        run: echo ::set-output name=version::$(echo ${GITHUB_REF##*/:1} | cut -c2-)
+      - name: output version name
+        run: echo ${{ steps.get_version.outputs.version }}

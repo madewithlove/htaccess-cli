@@ -1,10 +1,9 @@
 name: Continious Integration
 
 on:
-  push
-#  push:
-#    tags:
-#      - 'v*'
+  push:
+    tags:
+      - 'v*'
 
 jobs:
   docker-publish:
@@ -24,3 +23,5 @@ jobs:
         run: sleep 60
       - name: Build docker container
         run: docker build --build-arg VERSION=${{ steps.get_version.outputs.version }} -f Dockerfile --tag madewithlove/htaccess-cli:${{ steps.get_version.outputs.version }} .
+      - name: Publish docker container to Docker Hub
+        run: docker push madewithlove/htaccess-cli:${{ steps.get_version.outputs.version }}

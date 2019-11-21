@@ -2,7 +2,7 @@
 
 A CLI tool to test how .htaccess files behave
 
-### Installation
+## Installation
 
 To start performing analysis on your code, require htaccess CLI in Composer:
 
@@ -12,8 +12,16 @@ composer require --dev madewithlove/htaccess-cli
 
 Composer will install htaccess-cli's executable in its bin-dir which defaults to vendor/bin.
 
+### Global installation
 
-### Usage
+```bash
+composer global require madewithlove/htaccess-cli
+```
+
+Then make sure you have the global Composer binaries directory in your ``PATH``. This directory is platform-dependent, see `Composer documentation <https://getcomposer.org/doc/03-cli.md#composer-home>`_ for details.
+This allows you to use the tool as `htaccess` from every location in your system.
+
+## Usage
 
 If your .htaccess file lives in your root directory, you can run the cli tool using
 
@@ -35,7 +43,7 @@ docker pull madewithlove/htaccess-cli:latest
 docker run --rm -v $PWD:/app madewithlove/htaccess-cli [url] <options>
 ```
 
-### CLI Options
+## CLI Options
 
 The following options are available:
 

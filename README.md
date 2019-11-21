@@ -26,7 +26,11 @@ This allows you to use the tool as `htaccess` from every location in your system
 If your .htaccess file lives in your root directory, you can run the cli tool using
 
 ```bash
+# using global installation
 htaccess http://localhost/foo
+
+# using project-specific installation
+vendor/bin/htaccess http://localhost/foo
 ```
 
 Where the url is the request url you want to test your .htaccess file with.

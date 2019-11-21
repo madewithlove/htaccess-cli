@@ -10,7 +10,7 @@ jobs:
         env:
           PACKAGIST_API_KEY: ${{ secrets.PACKAGIST_API_KEY }}
           PACKAGIST_USERNAME: ${{ secrets.PACKAGIST_USERNAME }}
-        run: curl -XPOST -H'content-type:application/json' 'https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_API_KEY}' -d'{"repository":{"url":"https://packagist.org/packages/madewithlove/htaccess-cli"}}'
+        run: curl -XPOST -H'content-type:application/json' "https://packagist.org/api/update-package?username=${PACKAGIST_USERNAME}&apiToken=${PACKAGIST_API_KEY}" -d'{"repository":{"url":"https://packagist.org/packages/madewithlove/htaccess-cli"}}'
 
   phpstan:
     name: PHPStan

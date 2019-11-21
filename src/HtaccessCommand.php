@@ -30,6 +30,7 @@ final class HtaccessCommand extends Command
     {
         $this->addArgument('url', InputArgument::REQUIRED, 'The request url to test your .htaccess file with');
         $this->addOption('referrer', 'r', InputOption::VALUE_OPTIONAL, 'The referrer header, used as HTTP_REFERER in apache');
+        $this->addOption('server-name', 's', InputOption::VALUE_OPTIONAL, 'The configured server name, used as SERVER_NAME in apache');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -48,7 +49,8 @@ final class HtaccessCommand extends Command
         $result = $this->htaccessClient->test(
             $url,
             $htaccess,
-            $input->getOption('referrer')
+            $input->getOption('referrer'),
+            $input->getOption('server-name')
         );
 
         $io->table(

@@ -59,9 +59,9 @@ final class HtaccessCommand extends Command
             array_map(
                 function (ResultLine $resultLine): array {
                     return [
-                        $resultLine->isValid(),
-                        $resultLine->wasReached(),
-                        $resultLine->isMet(),
+                        $this->booleanToEmoji($resultLine->isValid()),
+                        $this->booleanToEmoji($resultLine->wasReached()),
+                        $this->booleanToEmoji($resultLine->isMet()),
                         $resultLine->getLine(),
                         $resultLine->getMessage(),
                     ];
@@ -71,5 +71,14 @@ final class HtaccessCommand extends Command
         );
 
         $io->success('The output url is "' . $result->getOutputUrl() . '"');
+    }
+
+    private function booleanToEmoji(bool $boolean): string
+    {
+        if ($boolean) {
+            return '✅';
+        }
+
+        return '🚫';
     }
 }

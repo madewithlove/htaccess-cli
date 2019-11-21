@@ -32,6 +32,7 @@ The following options are available:
 ```
 -r, --referrer[=REFERRER]        The referrer header, used as HTTP_REFERER in apache
 -s, --server-name[=SERVER-NAME]  The configured server name, used as SERVER_NAME in apache
+-h, --help                       Display a help message
 ```
 
 ### Note

@@ -8,7 +8,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 ARG VERSION
 
-RUN composer global require madewithlove/htaccess:"$VERSION"
+RUN composer global require madewithlove/htaccess-cli:"$VERSION"
 
 VOLUME ["/app"]
 WORKDIR /app

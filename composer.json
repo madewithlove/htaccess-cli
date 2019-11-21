@@ -1,5 +1,5 @@
 {
-    "name": "madewithlove/htaccess",
+    "name": "madewithlove/htaccess-cli",
     "description": "CLI interface for the best htaccess tester in the world.",
     "type": "package",
     "require": {

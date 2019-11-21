@@ -16,6 +16,8 @@ jobs:
     name: Check that this is installable and usable
     runs-on: ubuntu-latest
     steps:
+      - name: Wait for a bit before trying to fetch the new version
+        run: sleep 60
       - name: Clear composer cache
         run: composer clear-cache
       - name: Require this version

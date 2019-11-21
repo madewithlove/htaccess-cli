@@ -11,3 +11,19 @@ jobs:
       uses: docker://oskarstark/phpstan-ga
       with:
         args: analyse
+
+  install-and-test:
+    name: Check that this is installable through composer
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clear composer cache
+        run: composer clear-cache
+      - name: Extract branch name
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+      - name: Require this branch
+        run: composer require madewithlove/htaccess:dev-${{ steps.extract_branch.outputs.branch }}
+      - name: Add a very basic htaccess file
+        run: echo "RewriteRule .* /foo" >> .htaccess
+      - name: Run the htaccess tester
+        run: vendor/bin/htaccess http://localhost

@@ -25,3 +25,7 @@ jobs:
         run: docker build --build-arg VERSION=${{ steps.get_version.outputs.version }} -f Dockerfile --tag madewithlove/htaccess-cli:${{ steps.get_version.outputs.version }} .
       - name: Publish docker container to Docker Hub
         run: docker push madewithlove/htaccess-cli:${{ steps.get_version.outputs.version }}
+      - name: Build docker container as latest
+        run: docker build --build-arg VERSION=${{ steps.get_version.outputs.version }} -f Dockerfile --tag madewithlove/htaccess-cli:latest .
+      - name: Publish docker container to Docker Hub
+        run: docker push madewithlove/htaccess-cli:latest

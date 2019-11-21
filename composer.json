@@ -3,7 +3,7 @@
     "description": "CLI interface for the best htaccess tester in the world.",
     "type": "package",
     "require": {
-        "symfony/console": "^4.3",
+        "symfony/console": "^3.0 || ^4.0",
         "php-http/guzzle6-adapter": "^2.0",
         "http-interop/http-factory-guzzle": "^1.0",
         "madewithlove/htaccess-api-client": "^1.0"

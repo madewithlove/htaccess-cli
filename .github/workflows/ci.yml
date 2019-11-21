@@ -1,5 +1,5 @@
 name: Continious Integration
-on: pull_request
+on: push
 
 jobs:
   phpstan:
@@ -11,18 +11,3 @@ jobs:
       uses: docker://oskarstark/phpstan-ga
       with:
         args: analyse
-
-  install-and-test:
-    name: Check that this is installable and usable
-    runs-on: ubuntu-latest
-    steps:
-      - name: Wait for a bit before trying to fetch the new version
-        run: sleep 60
-      - name: Clear composer cache
-        run: composer clear-cache
-      - name: Require this version
-        run: composer require madewithlove/htaccess-cli:dev-${GITHUB_REF##*/}#$GITHUB_SHA --prefer-source
-      - name: Add a very basic htaccess file
-        run: echo "RewriteRule .* /foo" >> .htaccess
-      - name: Run the htaccess tester
-        run: vendor/bin/htaccess http://localhost

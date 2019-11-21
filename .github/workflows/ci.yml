@@ -18,11 +18,8 @@ jobs:
     steps:
       - name: Clear composer cache
         run: composer clear-cache
-      - name: Extract branch name
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
       - name: Require this branch
-        run: composer require madewithlove/htaccess:dev-${{ steps.extract_branch.outputs.branch }}
+        run: composer require madewithlove/htaccess:dev-${GITHUB_REF##*/}#$GITHUB_SHA
       - name: Add a very basic htaccess file
         run: echo "RewriteRule .* /foo" >> .htaccess
       - name: Run the htaccess tester

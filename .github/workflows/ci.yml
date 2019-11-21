@@ -19,7 +19,7 @@ jobs:
       - name: Clear composer cache
         run: composer clear-cache
       - name: Require this version
-        run: composer require madewithlove/htaccess:dev-${GITHUB_REF##*/}#$GITHUB_SHA
+        run: composer require madewithlove/htaccess:dev-${GITHUB_REF##*/}#$GITHUB_SHA --prefer-source
       - name: Add a very basic htaccess file
         run: echo "RewriteRule .* /foo" >> .htaccess
       - name: Run the htaccess tester

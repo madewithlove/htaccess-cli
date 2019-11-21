@@ -31,6 +31,7 @@ final class HtaccessCommand extends Command
         $this->addArgument('url', InputArgument::REQUIRED, 'The request url to test your .htaccess file with');
         $this->addOption('referrer', 'r', InputOption::VALUE_OPTIONAL, 'The referrer header, used as HTTP_REFERER in apache');
         $this->addOption('server-name', 's', InputOption::VALUE_OPTIONAL, 'The configured server name, used as SERVER_NAME in apache');
+        $this->addOption('expected-url', 'e', InputOption::VALUE_OPTIONAL, 'When configured, errors when the output url does not equal this url');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -74,6 +75,12 @@ final class HtaccessCommand extends Command
                 $result->getLines()
             )
         );
+
+        if ($input->getOption('expected-url') && $result->getOutputUrl() !== $input->getOption('expected-url')) {
+            $io->error('The output url is "' . $result->getOutputUrl() . '", while we expected "' . $input->getOption('expected-url') . '"');
+
+            return 1;
+        }
 
         $io->success('The output url is "' . $result->getOutputUrl() . '"');
     }

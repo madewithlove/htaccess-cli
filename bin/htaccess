@@ -1,7 +1,19 @@
 #!/usr/bin/env php
 <?php declare(strict_types=1);
 
-require __DIR__.'/../vendor/autoload.php';
+$potentialAutoloadLocations = [
+    __DIR__ . '/vendor/autoload.php',
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../vendor/autoload.php',
+    __DIR__ . '/../../../vendor/autoload.php',
+];
+
+foreach ($potentialAutoloadLocations as $file) {
+    if (file_exists($file)) {
+        require_once $file;
+        break;
+    }
+}
 
 use Http\Adapter\Guzzle6\Client;
 use Http\Factory\Guzzle\ServerRequestFactory;

@@ -6,6 +6,7 @@ use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
@@ -28,6 +29,7 @@ final class HtaccessCommand extends Command
     protected function configure()
     {
         $this->addArgument('url', InputArgument::REQUIRED, 'The request url to test your .htaccess file with');
+        $this->addOption('referrer', 'r', InputOption::VALUE_OPTIONAL, 'The referrer header, used as HTTP_REFERER in apache');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -45,7 +47,8 @@ final class HtaccessCommand extends Command
 
         $result = $this->htaccessClient->test(
             $url,
-            $htaccess
+            $htaccess,
+            $input->getOption('referrer')
         );
 
         $io->table(

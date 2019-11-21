@@ -2,10 +2,8 @@
 <?php declare(strict_types=1);
 
 $potentialAutoloadLocations = [
-    __DIR__ . '/vendor/autoload.php',
     __DIR__ . '/../vendor/autoload.php',
-    __DIR__ . '/../../vendor/autoload.php',
-    __DIR__ . '/../../../vendor/autoload.php',
+    __DIR__ . '/../../../../vendor/autoload.php',
 ];
 
 foreach ($potentialAutoloadLocations as $file) {

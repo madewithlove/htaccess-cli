@@ -23,7 +23,7 @@ This allows you to use the tool as `htaccess` from every location in your system
 
 ## Usage
 
-If your .htaccess file lives in your root directory, you can run the cli tool using
+Run the .htaccess CLI tester from a directory containing a .htaccess file.
 
 ```bash
 # using global installation

@@ -41,7 +41,7 @@ Where the url is the request url you want to test your .htaccess file with.
 
 ```bash
 # install the container
-docker pull madewithlove/htaccess-cli:latest
+docker pull madewithlove/htaccess-cli
 
 # run the htaccess tester in the current folder
 docker run --rm -v $PWD:/app madewithlove/htaccess-cli [url] <options>

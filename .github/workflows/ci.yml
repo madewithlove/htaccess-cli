@@ -1,5 +1,5 @@
 name: Continious Integration
-on: push
+on: pull_request
 
 jobs:
   phpstan:

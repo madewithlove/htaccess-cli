@@ -25,6 +25,15 @@ Where the url is the request url you want to test your .htaccess file with.
 
 ![Screenshot 2019-11-21 at 12 28 53](https://user-images.githubusercontent.com/1398405/69334214-8cf9ea00-0c5a-11ea-8ee8-06f397719289.png)
 
+### CLI Options
+
+The following options are available:
+
+```
+-r, --referrer[=REFERRER]        The referrer header, used as HTTP_REFERER in apache
+-s, --server-name[=SERVER-NAME]  The configured server name, used as SERVER_NAME in apache
+```
+
 ### Note
 
 The tool simulates only one pass through the server, while Apache will do multiple if you get back

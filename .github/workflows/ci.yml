@@ -21,3 +21,15 @@ jobs:
       uses: docker://oskarstark/phpstan-ga
       with:
         args: analyse
+
+  run:
+    name: Run current version
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Install dependencies
+      run: composer install -n --prefer-dist
+    - name: Add a very basic htaccess file
+      run: echo "RewriteRule .* /foo" >> .htaccess
+    - name: Run current version of htaccess cli
+      run: bin/htaccess https://example.com

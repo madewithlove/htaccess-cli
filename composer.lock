@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "76250ac69d828016b761bc4855c1fb07",
+    "content-hash": "f27ccd52ccd7451b23bc2c335d0e67c1",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -246,16 +246,16 @@
         },
         {
             "name": "madewithlove/htaccess-api-client",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/madewithlove/htaccess-api-client.git",
-                "reference": "ade035facfa01e295913921e33dce864c68d9fb8"
+                "reference": "6f1ca424b1f5748f8aabf34db26ef986004336c4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/madewithlove/htaccess-api-client/zipball/ade035facfa01e295913921e33dce864c68d9fb8",
-                "reference": "ade035facfa01e295913921e33dce864c68d9fb8",
+                "url": "https://api.github.com/repos/madewithlove/htaccess-api-client/zipball/6f1ca424b1f5748f8aabf34db26ef986004336c4",
+                "reference": "6f1ca424b1f5748f8aabf34db26ef986004336c4",
                 "shasum": ""
             },
             "require": {
@@ -279,7 +279,7 @@
                 "GPL-3.0-or-later"
             ],
             "description": "API client for the best htaccess tester in the world.",
-            "time": "2019-11-21T11:31:12+00:00"
+            "time": "2019-11-22T09:08:11+00:00"
         },
         {
             "name": "php-http/guzzle6-adapter",

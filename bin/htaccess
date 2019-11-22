@@ -22,7 +22,11 @@ use Symfony\Component\Console\Application;
 $application = new Application();
 
 $htaccessClient = new HtaccessClient(
-    new Client(),
+    Client::createWithConfig([
+        'headers' => [
+            'User-Agent' => 'HtaccessCli',
+        ],
+    ]),
     new ServerRequestFactory()
 );
 

@@ -83,6 +83,8 @@ final class HtaccessCommand extends Command
         }
 
         $io->success('The output url is "' . $result->getOutputUrl() . '"');
+
+        return 0;
     }
 
     private function booleanToEmoji(bool $boolean): string

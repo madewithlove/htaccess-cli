@@ -47,12 +47,18 @@ final class HtaccessCommand extends Command
 
         $htaccess = file_get_contents(getcwd() . '/.htaccess');
 
-        $result = $this->htaccessClient->test(
-            $url,
-            $htaccess,
-            $input->getOption('referrer'),
-            $input->getOption('server-name')
-        );
+        try {
+            $result = $this->htaccessClient->test(
+                $url,
+                $htaccess,
+                $input->getOption('referrer'),
+                $input->getOption('server-name')
+            );
+        } catch (HtaccessException $exception) {
+            $io->error($exception->getMessage());
+
+            return 1;
+        }
 
         $io->table(
             [

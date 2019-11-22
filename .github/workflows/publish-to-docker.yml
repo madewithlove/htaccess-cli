@@ -20,7 +20,7 @@ jobs:
         id: get_version
         run: echo ::set-output name=version::$(echo ${GITHUB_REF##*/} | cut -c2-)
       - name: Wait for package to become available on packagist
-        run: sleep 60
+        run: sleep 300
       - name: Build docker container
         run: docker build --build-arg VERSION=${{ steps.get_version.outputs.version }} -f Dockerfile --tag madewithlove/htaccess-cli:${{ steps.get_version.outputs.version }} .
       - name: Publish docker container to Docker Hub

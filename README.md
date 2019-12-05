@@ -1,6 +1,6 @@
 # htaccess CLI
 
-A CLI tool to test how .htaccess files behave
+A CLI tool to test how .htaccess files behave.
 
 ## Installation
 
@@ -46,6 +46,10 @@ docker pull madewithlove/htaccess-cli
 # run the htaccess tester in the current folder
 docker run --rm -v $PWD:/app madewithlove/htaccess-cli [url] <options>
 ```
+
+### Usage as a GitHub Action
+
+Check https://github.com/madewithlove/htaccess-cli-github-action if you want verify how .htaccess files behave in a GitHub Action.
 
 ## CLI Options
 

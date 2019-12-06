@@ -29,3 +29,12 @@ jobs:
         run: docker build --build-arg VERSION=${{ steps.get_version.outputs.version }} -f Dockerfile --tag madewithlove/htaccess-cli:latest .
       - name: Publish docker container to Docker Hub
         run: docker push madewithlove/htaccess-cli:latest
+      - uses: 8398a7/action-slack@v2
+        with:
+          text: Testing this slack integration
+          status: ${{ job.status }}
+          author_name: Integration Test # default: 8398a7@action-slack
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }} # required
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+        if: always() # Pick up events even if the job fails or is canceled.

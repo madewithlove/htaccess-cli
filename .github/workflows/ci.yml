@@ -23,3 +23,15 @@ jobs:
       run: echo "RewriteRule .* /foo" >> .htaccess
     - name: Run current version of htaccess cli
       run: bin/htaccess https://example.com
+
+  run:
+    name: Test action notifications
+    - uses: 8398a7/action-slack@v2
+      with:
+        text: Testing this slack integration
+        status: ${{ job.status }}
+        author_name: Integration Test # default: 8398a7@action-slack
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }} # required
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }} # required
+      if: always() # Pick up events even if the job fails or is canceled.

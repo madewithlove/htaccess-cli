@@ -71,9 +71,9 @@ final class HtaccessCommand extends Command
             array_map(
                 function (ResultLine $resultLine): array {
                     return [
-                        $this->booleanToEmoji($resultLine->isValid()),
-                        $this->booleanToEmoji($resultLine->wasReached()),
-                        $this->booleanToEmoji($resultLine->isMet()),
+                        $this->prettifyBoolean($resultLine->isValid()),
+                        $this->prettifyBoolean($resultLine->wasReached()),
+                        $this->prettifyBoolean($resultLine->isMet()),
                         $resultLine->getLine(),
                         $resultLine->getMessage(),
                     ];
@@ -93,12 +93,12 @@ final class HtaccessCommand extends Command
         return 0;
     }
 
-    private function booleanToEmoji(bool $boolean): string
+    private function prettifyBoolean(bool $boolean): string
     {
         if ($boolean) {
-            return '✅';
+            return '<info>✓</info>';
         }
 
-        return '🚫';
+        return '<fg=red>✗</>';
     }
 }

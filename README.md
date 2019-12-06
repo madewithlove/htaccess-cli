@@ -35,7 +35,7 @@ vendor/bin/htaccess http://localhost/foo
 
 Where the url is the request url you want to test your .htaccess file with.
 
-![Screenshot 2019-11-21 at 16 34 40](https://user-images.githubusercontent.com/1398405/69352228-d65b3100-0c7c-11ea-8bed-ae938cec538c.png)
+![Output of the htaccess tester](https://user-images.githubusercontent.com/1398405/70325684-d8072600-1832-11ea-99f2-3182c0ac3906.png)
 
 ### Usage through Docker
 

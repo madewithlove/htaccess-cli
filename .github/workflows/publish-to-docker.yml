@@ -29,3 +29,11 @@ jobs:
         run: docker build --build-arg VERSION=${{ steps.get_version.outputs.version }} -f Dockerfile --tag madewithlove/htaccess-cli:latest .
       - name: Publish docker container to Docker Hub
         run: docker push madewithlove/htaccess-cli:latest
+      - uses: 8398a7/action-slack@v2
+        with:
+          status: ${{ job.status }}
+          author_name: Docker hub publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_PERSONAL_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()

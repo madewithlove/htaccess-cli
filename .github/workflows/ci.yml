@@ -24,7 +24,7 @@ jobs:
     - name: Run current version of htaccess cli
       run: bin/htaccess https://example.com
 
-  run:
+  slack-notification:
     name: Test action notifications
     runs-on: ubuntu-latest
     steps:

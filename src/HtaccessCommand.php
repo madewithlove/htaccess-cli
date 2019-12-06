@@ -96,9 +96,9 @@ final class HtaccessCommand extends Command
     private function booleanToEmoji(bool $boolean): string
     {
         if ($boolean) {
-            return '✅';
+            return '<info>✓</info>';
         }
 
-        return '🚫';
+        return '<fg=red>✗</>';
     }
 }

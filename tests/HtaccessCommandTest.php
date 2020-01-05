@@ -39,4 +39,16 @@ final class HtaccessCommandTest extends TestCase
         $this->expectExceptionMessage('Not enough arguments (missing: "url")');
         $commandTester->execute([]);
     }
+
+    /** @test */
+    public function it does not run without htaccess file available(): void
+    {
+        $commandTester = new CommandTester($this->command);
+
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('We could not find an .htaccess file in the current directory');
+        $commandTester->execute([
+            'url' => 'http://localhost',
+        ]);
+    }
 }

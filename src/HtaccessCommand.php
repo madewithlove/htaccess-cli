@@ -83,6 +83,21 @@ final class HtaccessCommand extends Command
             )
         );
 
+        if ($input->getOption('share')) {
+            try {
+                $share = $this->htaccessClient->share(
+                    $url,
+                    $htaccess,
+                    $input->getOption('referrer'),
+                    $input->getOption('server-name')
+                );
+
+                $io->text('You can share this test run on ' . $share->getShareUrl());
+            } catch (HtaccessException $exception) {
+                // when sharing failed, just ignore it
+            }
+        }
+
         if ($input->getOption('expected-url') && $result->getOutputUrl() !== $input->getOption('expected-url')) {
             $io->error('The output url is "' . $result->getOutputUrl() . '", while we expected "' . $input->getOption('expected-url') . '"');
 

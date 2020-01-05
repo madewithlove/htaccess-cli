@@ -14,5 +14,8 @@
     "autoload": {
         "psr-4": {"Madewithlove\\": "src/"}
     },
-    "license": "GPL-3.0-or-later"
+    "license": "GPL-3.0-or-later",
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    }
 }

@@ -63,6 +63,7 @@ The following options are available:
 -r, --referrer[=REFERRER]          The referrer header, used as HTTP_REFERER in apache
 -s, --server-name[=SERVER-NAME]    The configured server name, used as SERVER_NAME in apache
 -e, --expected-url[=EXPECTED-URL]  When configured, errors when the output url does not equal this url
+    --share                        When passed, you'll receive a share url for your test run
 -h, --help                         Display a help message
 ```
 

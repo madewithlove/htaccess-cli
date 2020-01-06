@@ -32,6 +32,7 @@ final class HtaccessCommand extends Command
         $this->addOption('referrer', 'r', InputOption::VALUE_OPTIONAL, 'The referrer header, used as HTTP_REFERER in apache');
         $this->addOption('server-name', 's', InputOption::VALUE_OPTIONAL, 'The configured server name, used as SERVER_NAME in apache');
         $this->addOption('expected-url', 'e', InputOption::VALUE_OPTIONAL, 'When configured, errors when the output url does not equal this url');
+        $this->addOption('share', null, InputOption::VALUE_NONE, 'When passed, you\'ll receive a share url for your test run');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -81,6 +82,21 @@ final class HtaccessCommand extends Command
                 $result->getLines()
             )
         );
+
+        if ($input->getOption('share')) {
+            try {
+                $share = $this->htaccessClient->share(
+                    $url,
+                    $htaccess,
+                    $input->getOption('referrer'),
+                    $input->getOption('server-name')
+                );
+
+                $io->text('You can share this test run on ' . $share->getShareUrl());
+            } catch (HtaccessException $exception) {
+                // when sharing failed, just ignore it
+            }
+        }
 
         if ($input->getOption('expected-url') && $result->getOutputUrl() !== $input->getOption('expected-url')) {
             $io->error('The output url is "' . $result->getOutputUrl() . '", while we expected "' . $input->getOption('expected-url') . '"');

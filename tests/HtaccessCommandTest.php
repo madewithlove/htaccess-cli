@@ -88,4 +88,38 @@ final class HtaccessCommandTest extends TestCase
             $commandTester->getDisplay()
         );
     }
+
+    /** @test */
+    public function it has exit status zero when expected url is correct(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteRule .* /foo"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--expected-url' => 'http://localhost/foo',
+        ]);
+
+        $this->assertEquals(0, $commandTester->getStatusCode());
+    }
+
+    /** @test */
+    public function it has exit status one when expected url is incorrect(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteRule .* /foo"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--expected-url' => 'http://localhost/bar',
+        ]);
+
+        $this->assertEquals(1, $commandTester->getStatusCode());
+    }
 }

@@ -30,6 +30,13 @@ final class HtaccessCommandTest extends TestCase
         $this->command = new HtaccessCommand($htaccessClient);
     }
 
+    public function tearDown(): void
+    {
+        parent::tearDown();
+
+        @unlink(getcwd() . '/.htaccess');
+    }
+
     /** @test */
     public function it does not run without url argument(): void
     {
@@ -50,5 +57,69 @@ final class HtaccessCommandTest extends TestCase
         $commandTester->execute([
             'url' => 'http://localhost',
         ]);
+    }
+
+    /** @test */
+    public function it does run(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "InvalidRule\nRewriteRule .* /foo"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+        ]);
+
+        // it outputs the lines
+        $this->assertStringContainsString(
+            'InvalidRule',
+            $commandTester->getDisplay()
+        );
+        $this->assertStringContainsString(
+            'This line is not supported by our tool',
+            $commandTester->getDisplay()
+        );
+
+        // it outputs the output url
+        $this->assertStringContainsString(
+            'The output url is "http://localhost/foo"',
+            $commandTester->getDisplay()
+        );
+    }
+
+    /** @test */
+    public function it has exit status zero when expected url is correct(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteRule .* /foo"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--expected-url' => 'http://localhost/foo',
+        ]);
+
+        $this->assertEquals(0, $commandTester->getStatusCode());
+    }
+
+    /** @test */
+    public function it has exit status one when expected url is incorrect(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteRule .* /foo"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--expected-url' => 'http://localhost/bar',
+        ]);
+
+        $this->assertEquals(1, $commandTester->getStatusCode());
     }
 }

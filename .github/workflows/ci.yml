@@ -12,6 +12,16 @@ jobs:
       with:
         args: analyse
 
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Install dependencies
+      run: composer install -n --prefer-dist
+    - name: Run tests
+      run: vendor/bin/phpunit tests/
+
   run:
     name: Run current version
     runs-on: ubuntu-latest

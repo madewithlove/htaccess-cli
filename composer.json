@@ -14,5 +14,11 @@
     "autoload": {
         "psr-4": {"Madewithlove\\": "src/"}
     },
-    "license": "GPL-3.0-or-later"
+    "autoload-dev": {
+        "psr-4": {"Madewithlove\\": "tests/"}
+    },
+    "license": "GPL-3.0-or-later",
+    "require-dev": {
+        "phpunit/phpunit": "^8.5"
+    }
 }

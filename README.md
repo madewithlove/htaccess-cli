@@ -3,6 +3,7 @@
 [![Build status](https://github.com/madewithlove/htaccess-cli/workflows/Continious%20Integration/badge.svg)](https://github.com/madewithlove/htaccess-cli/actions?query=branch%3Amaster)
 [![Latest Stable Version](https://poser.pugx.org/madewithlove/htaccess-cli/version)](https://packagist.org/packages/madewithlove/htaccess-cli)
 [![License](https://poser.pugx.org/madewithlove/htaccess-cli/license)](https://packagist.org/packages/madewithlove/htaccess-cli)
+[![codecov](https://codecov.io/gh/madewithlove/htaccess-cli/branch/master/graph/badge.svg)](https://codecov.io/gh/madewithlove/htaccess-cli)
 
 A CLI tool to test how .htaccess files behave.
 

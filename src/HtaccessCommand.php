@@ -57,7 +57,7 @@ final class HtaccessCommand extends Command
             foreach ($urls as $url) {
                 $results[] = [
                     'url' => $url,
-                    'output_url' => $this->test($url, $htaccess, $input, $io)->getOutputUrl(),
+                    'output_url' => $this->test($url, $htaccess, $input)->getOutputUrl(),
                 ];
             }
 

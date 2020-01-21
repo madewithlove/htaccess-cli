@@ -67,4 +67,36 @@ final class MultipleUrlsTest extends TestCase
             '--url-list' => 'test-urls.yaml',
         ]);
     }
+
+    /** @test */
+    public function it does run with multiple urls(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteRule (.*) /foo/$1"
+        );
+        file_put_contents(
+            getcwd() . '/test-urls.yaml',
+            "urls:
+  - http://localhost/test
+  - http://localhost/bar"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            '--url-list' => 'test-urls.yaml',
+        ]);
+
+        // it outputs the output urls
+        $this->assertStringContainsString(
+            'http://localhost/foo/test',
+            $commandTester->getDisplay()
+        );
+        $this->assertStringContainsString(
+            'http://localhost/foo/bar',
+            $commandTester->getDisplay()
+        );
+
+        $this->assertEquals(0, $commandTester->getStatusCode());
+    }
 }

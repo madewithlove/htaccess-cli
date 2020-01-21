@@ -49,6 +49,10 @@ final class HtaccessCommand extends Command
             throw new SymfonyRuntimeException('Not enough arguments (missing: "url")');
         }
 
+        if ($urlList && $url) {
+            throw new SymfonyRuntimeException('You cannot use a url list together with a regular url');
+        }
+
         if ($urlList) {
             $urlList = getcwd() . '/' . $urlList;
             if (!file_exists($urlList)) {

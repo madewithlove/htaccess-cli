@@ -54,4 +54,17 @@ final class MultipleUrlsTest extends TestCase
             '--url-list' => 'test-urls.yaml',
         ]);
     }
+
+    /** @test */
+    public function it throws when passing both a url and a url list(): void
+    {
+        $commandTester = new CommandTester($this->command);
+
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('You cannot use a url list together with a regular url');
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--url-list' => 'test-urls.yaml',
+        ]);
+    }
 }

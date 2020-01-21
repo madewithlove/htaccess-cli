@@ -60,7 +60,6 @@ final class HtaccessCommand extends Command
         } else {
             $urls = Yaml::parseFile(getcwd() . '/' . $input->getOption('url-list'));
             $results = [];
-            $hasExpectedUrl = false;
 
             foreach ($urls as $url => $expectedUrl) {
                 $hasExpectedUrl = !is_int($url);

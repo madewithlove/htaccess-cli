@@ -68,6 +68,30 @@ The following options are available:
 -h, --help                         Display a help message
 ```
 
+## Usages with multiple url's
+
+To test one htaccess file with multiple url's, you can use a yaml file that contains them.
+
+```yaml
+urls:
+  - http://localhost/foo
+  - http://localhost/bar
+```
+
+If you want to pass an expected url for every url you're testing, you can use this yaml structure, where each url maps to an expected url.
+
+```yaml
+urls:
+  http://localhost/foo: http://localhost/test
+  http://localhost/bar: http://localhost/test
+```
+
+You can then run the command using
+
+```bash
+htaccess --url-list ./url-list.yaml
+```
+
 ### Note
 
 The tool simulates only one pass through the server, while Apache will do multiple if you get back

@@ -47,6 +47,15 @@ final class HtaccessCommand extends Command
         $url = $input->getArgument('url');
         $htaccess = file_get_contents(getcwd() . '/.htaccess');
 
+        if ($url) {
+            return $this->testSingleUrl($url, $htaccess, $input, $io);
+        }
+
+        return 0;
+    }
+
+    private function testSingleUrl(string $url, string $htaccess, InputInterface $input, SymfonyStyle $io): int
+    {
         try {
             $result = $this->test($url, $htaccess, $input, $io);
         } catch (HtaccessException $exception) {

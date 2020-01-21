@@ -49,8 +49,14 @@ final class HtaccessCommand extends Command
             throw new SymfonyRuntimeException('Not enough arguments (missing: "url")');
         }
 
-        $htaccessFile = getcwd() . '/.htaccess';
+        if ($urlList) {
+            $urlList = getcwd() . '/' . $urlList;
+            if (!file_exists($urlList)) {
+                throw new SymfonyRuntimeException('We could not load the specified url list.');
+            }
+        }
 
+        $htaccessFile = getcwd() . '/.htaccess';
         if (!file_exists($htaccessFile)) {
             throw new RuntimeException('We could not find an .htaccess file in the current directory');
         }

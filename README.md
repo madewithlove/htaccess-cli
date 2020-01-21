@@ -65,7 +65,23 @@ The following options are available:
 -s, --server-name[=SERVER-NAME]    The configured server name, used as SERVER_NAME in apache
 -e, --expected-url[=EXPECTED-URL]  When configured, errors when the output url does not equal this url
     --share                        When passed, you'll receive a share url for your test run
+-l, --url-list[=URL-LIST]          Location of the yaml file containing your url list
 -h, --help                         Display a help message
+```
+
+## Usages with multiple url's
+
+To test one htaccess file with multiple url's, you can use a yaml file that contains them.
+
+```yaml
+- http://localhost/foo
+- http://localhost/bar
+```
+
+You can then run the command using
+
+```bash
+htaccess --url-list ./url-list.yaml
 ```
 
 ### Note

@@ -66,7 +66,7 @@ final class HtaccessCommand extends Command
                     'url',
                     'output url',
                 ],
-                $results,
+                $results
             );
         }
 

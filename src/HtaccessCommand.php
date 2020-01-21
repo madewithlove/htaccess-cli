@@ -53,21 +53,44 @@ final class HtaccessCommand extends Command
         } else {
             $urls = Yaml::parseFile(getcwd() . '/' . $input->getOption('url-list'));
             $results = [];
+            $hasExpectedUrl = false;
+            $allExpectationsPass = true;
 
-            foreach ($urls as $url) {
-                $results[] = [
+            foreach ($urls as $url => $expectedUrl) {
+                $hasExpectedUrl = !is_int($url);
+                if (!$hasExpectedUrl) {
+                    $url = $expectedUrl;
+                }
+
+                $result = [
                     'url' => $url,
                     'output_url' => $this->test($url, $htaccess, $input)->getOutputUrl(),
                 ];
+
+                if ($hasExpectedUrl) {
+                    $matches = $expectedUrl === $result['output_url'];
+                    if (!$matches) {
+                        $allExpectationsPass = false;
+                    }
+                    $result['expected url'] = $expectedUrl;
+                    $result['matches'] = $this->prettifyBoolean($expectedUrl === $result['output_url']);
+                }
+
+                $results[] = $result;
             }
 
-            $io->table(
-                [
-                    'url',
-                    'output url',
-                ],
-                $results
-            );
+            $headers = [ 'url', 'output url' ];
+            if ($hasExpectedUrl) {
+                $headers = $headers + ['expected url', 'matches'];
+            }
+
+            $io->table($headers, $results);
+
+            if (!$allExpectationsPass) {
+                $io->error('Not all output urls matched the expectations');
+
+                return 1;
+            }
         }
 
         return 0;

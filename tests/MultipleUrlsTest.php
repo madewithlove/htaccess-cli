@@ -98,4 +98,26 @@ final class MultipleUrlsTest extends TestCase
 
         $this->assertEquals(0, $commandTester->getStatusCode());
     }
+
+    /** @test */
+    public function it has exit status one when at least one expected url is incorrect(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteRule (.*) /foo/$1"
+        );
+        file_put_contents(
+            getcwd() . '/test-urls.yaml',
+            "http://localhost/test: http://localhost/foo/test
+http://localhost/bar: http://localhost/foo/test"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            '--url-list' => 'test-urls.yaml',
+        ]);
+
+        $this->assertStringContainsString('✗', $commandTester->getDisplay());
+        $this->assertEquals(1, $commandTester->getStatusCode());
+    }
 }

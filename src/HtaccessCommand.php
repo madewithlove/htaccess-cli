@@ -4,6 +4,7 @@ namespace Madewithlove;
 
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Exception\RuntimeException as SymfonyRuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -28,7 +29,7 @@ final class HtaccessCommand extends Command
 
     protected function configure()
     {
-        $this->addArgument('url', InputArgument::REQUIRED, 'The request url to test your .htaccess file with');
+        $this->addArgument('url', InputArgument::OPTIONAL, 'The request url to test your .htaccess file with');
         $this->addOption('referrer', 'r', InputOption::VALUE_OPTIONAL, 'The referrer header, used as HTTP_REFERER in apache');
         $this->addOption('server-name', 's', InputOption::VALUE_OPTIONAL, 'The configured server name, used as SERVER_NAME in apache');
         $this->addOption('expected-url', 'e', InputOption::VALUE_OPTIONAL, 'When configured, errors when the output url does not equal this url');
@@ -41,6 +42,12 @@ final class HtaccessCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $url = $input->getArgument('url');
+        $urlList = $input->getOption('url-list');
+
+        if (is_null($urlList) && is_null($url)) {
+            throw new SymfonyRuntimeException('Not enough arguments (missing: "url")');
+        }
+
         $htaccessFile = getcwd() . '/.htaccess';
 
         if (!file_exists($htaccessFile)) {

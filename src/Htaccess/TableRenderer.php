@@ -33,6 +33,35 @@ final class TableRenderer
         );
     }
 
+    public function renderMultipleLineResult(array $results, $io): void
+    {
+        $hasExpectedUrl = !empty(array_filter(
+            $results,
+            function (array $result) {
+                return isset($result['expected url']);
+            }
+        ));
+
+        $headers = [ 'url', 'output url' ];
+        if ($hasExpectedUrl) {
+            $headers = $headers + ['expected url', 'matches'];
+        }
+
+        $io->table(
+            $headers,
+            array_map(
+                function (array $result): array {
+                    if (isset($result['matches'])) {
+                        $result['matches'] = $this->prettifyBoolean($result['matches']);
+                    }
+
+                    return $result;
+                },
+                $results
+            )
+        );
+    }
+
     private function prettifyBoolean(bool $boolean): string
     {
         if ($boolean) {

@@ -80,18 +80,13 @@ final class HtaccessCommand extends Command
                         $allExpectationsPass = false;
                     }
                     $result['expected url'] = $expectedUrl;
-                    $result['matches'] = $this->prettifyBoolean($expectedUrl === $result['output_url']);
+                    $result['matches'] = $matches;
                 }
 
                 $results[] = $result;
             }
 
-            $headers = [ 'url', 'output url' ];
-            if ($hasExpectedUrl) {
-                $headers = $headers + ['expected url', 'matches'];
-            }
-
-            $io->table($headers, $results);
+            $this->tableRenderer->renderMultipleLineResult($results, $io);
 
             if (!$allExpectationsPass) {
                 $io->error('Not all output urls matched the expectations');
@@ -179,14 +174,5 @@ final class HtaccessCommand extends Command
         }
 
         return $result;
-    }
-
-    private function prettifyBoolean(bool $boolean): string
-    {
-        if ($boolean) {
-            return '<info>✓</info>';
-        }
-
-        return '<fg=red>✗</>';
     }
 }

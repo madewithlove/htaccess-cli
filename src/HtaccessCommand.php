@@ -42,29 +42,9 @@ final class HtaccessCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        $this->validateInput($input);
+
         $url = $input->getArgument('url');
-        $urlList = $input->getOption('url-list');
-
-        if (is_null($urlList) && is_null($url)) {
-            throw new SymfonyRuntimeException('Not enough arguments (missing: "url")');
-        }
-
-        if ($urlList && $url) {
-            throw new SymfonyRuntimeException('You cannot use a url list together with a regular url');
-        }
-
-        if ($urlList) {
-            $urlList = getcwd() . '/' . $urlList;
-            if (!file_exists($urlList)) {
-                throw new SymfonyRuntimeException('We could not load the specified url list.');
-            }
-        }
-
-        $htaccessFile = getcwd() . '/.htaccess';
-        if (!file_exists($htaccessFile)) {
-            throw new RuntimeException('We could not find an .htaccess file in the current directory');
-        }
-
         $htaccess = file_get_contents(getcwd() . '/.htaccess');
 
         try {
@@ -99,6 +79,32 @@ final class HtaccessCommand extends Command
         $io->success('The output url is "' . $result->getOutputUrl() . '"');
 
         return 0;
+    }
+
+    private function validateInput(InputInterface $input)
+    {
+        $url = $input->getArgument('url');
+        $urlList = $input->getOption('url-list');
+
+        if (is_null($urlList) && is_null($url)) {
+            throw new SymfonyRuntimeException('Not enough arguments (missing: "url")');
+        }
+
+        if ($urlList && $url) {
+            throw new SymfonyRuntimeException('You cannot use a url list together with a regular url');
+        }
+
+        if ($urlList) {
+            $urlList = getcwd() . '/' . $urlList;
+            if (!file_exists($urlList)) {
+                throw new SymfonyRuntimeException('We could not load the specified url list.');
+            }
+        }
+
+        $htaccessFile = getcwd() . '/.htaccess';
+        if (!file_exists($htaccessFile)) {
+            throw new RuntimeException('We could not find an .htaccess file in the current directory');
+        }
     }
 
     private function test(string $url, string $htaccess, InputInterface $input, ?SymfonyStyle $io = null): HtaccessResult

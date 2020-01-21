@@ -11,6 +11,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Yaml\Yaml;
 
 final class HtaccessCommand extends Command
 {
@@ -49,6 +50,24 @@ final class HtaccessCommand extends Command
 
         if ($url) {
             return $this->testSingleUrl($url, $htaccess, $input, $io);
+        } else {
+            $urls = Yaml::parseFile(getcwd() . '/' . $input->getOption('url-list'));
+            $results = [];
+
+            foreach ($urls as $url) {
+                $results[] = [
+                    'url' => $url,
+                    'output_url' => $this->test($url, $htaccess, $input, $io)->getOutputUrl(),
+                ];
+            }
+
+            $io->table(
+                [
+                    'url',
+                    'output url',
+                ],
+                $results,
+            );
         }
 
         return 0;

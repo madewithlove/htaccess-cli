@@ -2,6 +2,7 @@
 
 namespace Madewithlove;
 
+use Madewithlove\HtaccessResult;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException as SymfonyRuntimeException;
@@ -57,39 +58,12 @@ final class HtaccessCommand extends Command
         $htaccess = file_get_contents(getcwd() . '/.htaccess');
 
         try {
-            $result = $this->htaccessClient->test(
-                $url,
-                $htaccess,
-                $input->getOption('referrer'),
-                $input->getOption('server-name')
-            );
+            $result = $this->test($url, $htaccess, $input, $io);
         } catch (HtaccessException $exception) {
             $io->error($exception->getMessage());
 
             return 1;
         }
-
-        $io->table(
-            [
-                'valid',
-                'reached',
-                'met',
-                'line',
-                'message',
-            ],
-            array_map(
-                function (ResultLine $resultLine): array {
-                    return [
-                        $this->prettifyBoolean($resultLine->isValid()),
-                        $this->prettifyBoolean($resultLine->wasReached()),
-                        $this->prettifyBoolean($resultLine->isMet()),
-                        $resultLine->getLine(),
-                        $resultLine->getMessage(),
-                    ];
-                },
-                $result->getLines()
-            )
-        );
 
         if ($input->getOption('share')) {
             try {
@@ -115,6 +89,42 @@ final class HtaccessCommand extends Command
         $io->success('The output url is "' . $result->getOutputUrl() . '"');
 
         return 0;
+    }
+
+    private function test(string $url, string $htaccess, InputInterface $input, ?SymfonyStyle $io = null): HtaccessResult
+    {
+        $result = $this->htaccessClient->test(
+            $url,
+            $htaccess,
+            $input->getOption('referrer'),
+            $input->getOption('server-name')
+        );
+
+        if ($io) {
+            $io->table(
+                [
+                    'valid',
+                    'reached',
+                    'met',
+                    'line',
+                    'message',
+                ],
+                array_map(
+                    function (ResultLine $resultLine): array {
+                        return [
+                            $this->prettifyBoolean($resultLine->isValid()),
+                            $this->prettifyBoolean($resultLine->wasReached()),
+                            $this->prettifyBoolean($resultLine->isMet()),
+                            $resultLine->getLine(),
+                            $resultLine->getMessage(),
+                        ];
+                    },
+                    $result->getLines()
+                )
+            );
+        }
+
+        return $result;
     }
 
     private function prettifyBoolean(bool $boolean): string

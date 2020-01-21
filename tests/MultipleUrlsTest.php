@@ -77,9 +77,8 @@ final class MultipleUrlsTest extends TestCase
         );
         file_put_contents(
             getcwd() . '/test-urls.yaml',
-            "urls:
-  - http://localhost/test
-  - http://localhost/bar"
+            "- http://localhost/test
+- http://localhost/bar"
         );
 
         $commandTester = new CommandTester($this->command);

@@ -122,4 +122,24 @@ final class HtaccessCommandTest extends TestCase
 
         $this->assertEquals(1, $commandTester->getStatusCode());
     }
+
+    /** @test */
+    public function it is possible to share a test run(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteRule .* /foo"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--share' => true,
+        ]);
+
+        $this->assertStringContainsString(
+            'You can share this test run on https://htaccess.madewithlove.be?share=',
+            $commandTester->getDisplay()
+        );
+    }
 }

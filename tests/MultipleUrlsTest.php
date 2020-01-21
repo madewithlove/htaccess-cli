@@ -4,6 +4,7 @@ namespace Madewithlove;
 
 use Http\Adapter\Guzzle6\Client;
 use Http\Factory\Guzzle\ServerRequestFactory;
+use Madewithlove\Htaccess\TableRenderer;
 use Madewithlove\HtaccessClient;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Exception\RuntimeException;
@@ -32,7 +33,7 @@ final class MultipleUrlsTest extends TestCase
             new ServerRequestFactory()
         );
 
-        $this->command = new HtaccessCommand($htaccessClient);
+        $this->command = new HtaccessCommand($htaccessClient, new TableRenderer());
     }
 
     public function tearDown(): void

@@ -2,6 +2,7 @@
 
 namespace Madewithlove;
 
+use Madewithlove\Htaccess\TableRenderer;
 use Madewithlove\HtaccessResult;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -20,13 +21,19 @@ final class HtaccessCommand extends Command
      */
     private $htaccessClient;
 
+    /**
+     * @var TableRenderer
+     */
+    private $tableRenderer;
+
     protected static $defaultName = 'htaccess';
 
-    public function __construct(HtaccessClient $htaccessClient)
+    public function __construct(HtaccessClient $htaccessClient, TableRenderer $tableRenderer)
     {
         parent::__construct();
 
         $this->htaccessClient = $htaccessClient;
+        $this->tableRenderer = $tableRenderer;
     }
 
     protected function configure()
@@ -53,8 +60,6 @@ final class HtaccessCommand extends Command
         } else {
             $urls = Yaml::parseFile(getcwd() . '/' . $input->getOption('url-list'));
             $results = [];
-            $hasExpectedUrl = false;
-            $allExpectationsPass = true;
 
             foreach ($urls as $url => $expectedUrl) {
                 $hasExpectedUrl = !is_int($url);
@@ -68,25 +73,23 @@ final class HtaccessCommand extends Command
                 ];
 
                 if ($hasExpectedUrl) {
-                    $matches = $expectedUrl === $result['output_url'];
-                    if (!$matches) {
-                        $allExpectationsPass = false;
-                    }
                     $result['expected url'] = $expectedUrl;
-                    $result['matches'] = $this->prettifyBoolean($expectedUrl === $result['output_url']);
+                    $result['matches'] = $expectedUrl === $result['output_url'];
                 }
 
                 $results[] = $result;
             }
 
-            $headers = [ 'url', 'output url' ];
-            if ($hasExpectedUrl) {
-                $headers = $headers + ['expected url', 'matches'];
-            }
+            $this->tableRenderer->renderMultipleLineResult($results, $io);
 
-            $io->table($headers, $results);
+            $resultsFailingExpectations = array_filter(
+                $results,
+                function (array $result) {
+                    return isset($result['matches']) && $result['matches'] === false;
+                }
+            );
 
-            if (!$allExpectationsPass) {
+            if (!empty($resultsFailingExpectations)) {
                 $io->error('Not all output urls matched the expectations');
 
                 return 1;
@@ -168,38 +171,9 @@ final class HtaccessCommand extends Command
         );
 
         if ($io) {
-            $io->table(
-                [
-                    'valid',
-                    'reached',
-                    'met',
-                    'line',
-                    'message',
-                ],
-                array_map(
-                    function (ResultLine $resultLine): array {
-                        return [
-                            $this->prettifyBoolean($resultLine->isValid()),
-                            $this->prettifyBoolean($resultLine->wasReached()),
-                            $this->prettifyBoolean($resultLine->isMet()),
-                            $resultLine->getLine(),
-                            $resultLine->getMessage(),
-                        ];
-                    },
-                    $result->getLines()
-                )
-            );
+            $this->tableRenderer->renderHtaccessResult($result, $io);
         }
 
         return $result;
-    }
-
-    private function prettifyBoolean(bool $boolean): string
-    {
-        if ($boolean) {
-            return '<info>✓</info>';
-        }
-
-        return '<fg=red>✗</>';
     }
 }

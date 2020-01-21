@@ -54,7 +54,7 @@ final class HtaccessCommand extends Command
             $urls = Yaml::parseFile(getcwd() . '/' . $input->getOption('url-list'));
             $results = [];
             $hasExpectedUrl = false;
-            $failsExpectations = false;
+            $allExpectationsPass = true;
 
             foreach ($urls as $url => $expectedUrl) {
                 $hasExpectedUrl = !is_int($url);
@@ -70,7 +70,7 @@ final class HtaccessCommand extends Command
                 if ($hasExpectedUrl) {
                     $matches = $expectedUrl === $result['output_url'];
                     if (!$matches) {
-                        $failsExpectations = true;
+                        $allExpectationsPass = false;
                     }
                     $result['expected url'] = $expectedUrl;
                     $result['matches'] = $this->prettifyBoolean($expectedUrl === $result['output_url']);
@@ -86,7 +86,7 @@ final class HtaccessCommand extends Command
 
             $io->table($headers, $results);
 
-            if ($failsExpectations) {
+            if (!$allExpectationsPass) {
                 $io->error('Not all output urls matched the expectations');
 
                 return 1;

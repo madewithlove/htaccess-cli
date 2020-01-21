@@ -2,6 +2,7 @@
 
 namespace Madewithlove;
 
+use Madewithlove\Htaccess\TableRenderer;
 use Madewithlove\HtaccessResult;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -20,13 +21,19 @@ final class HtaccessCommand extends Command
      */
     private $htaccessClient;
 
+    /**
+     * @var TableRenderer
+     */
+    private $tableRenderer;
+
     protected static $defaultName = 'htaccess';
 
-    public function __construct(HtaccessClient $htaccessClient)
+    public function __construct(HtaccessClient $htaccessClient, TableRenderer $tableRenderer)
     {
         parent::__construct();
 
         $this->htaccessClient = $htaccessClient;
+        $this->tableRenderer = $tableRenderer;
     }
 
     protected function configure()
@@ -168,27 +175,7 @@ final class HtaccessCommand extends Command
         );
 
         if ($io) {
-            $io->table(
-                [
-                    'valid',
-                    'reached',
-                    'met',
-                    'line',
-                    'message',
-                ],
-                array_map(
-                    function (ResultLine $resultLine): array {
-                        return [
-                            $this->prettifyBoolean($resultLine->isValid()),
-                            $this->prettifyBoolean($resultLine->wasReached()),
-                            $this->prettifyBoolean($resultLine->isMet()),
-                            $resultLine->getLine(),
-                            $resultLine->getMessage(),
-                        ];
-                    },
-                    $result->getLines()
-                )
-            );
+            $this->tableRenderer->renderHtaccessResult($result, $io);
         }
 
         return $result;

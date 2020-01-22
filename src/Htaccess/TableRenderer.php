@@ -44,7 +44,7 @@ final class TableRenderer
 
         $headers = [ 'url', 'output url' ];
         if ($hasExpectedUrl) {
-            $headers = $headers + ['expected url', 'matches'];
+            $headers = array_merge($headers, ['expected url', 'matches']);
         }
 
         $io->table(

@@ -91,6 +91,8 @@ You can then run the command using
 htaccess --url-list ./url-list.yaml
 ```
 
+![Output with multiple urls](https://user-images.githubusercontent.com/1398405/72885990-45024c80-3d09-11ea-8c32-da6e490fd51d.png)
+
 ### Note
 
 The tool simulates only one pass through the server, while Apache will do multiple if you get back

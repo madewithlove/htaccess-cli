@@ -1,3 +1,5 @@
 .htaccess
 /vendor/
 composer.lock
+*.cache
+coverage/

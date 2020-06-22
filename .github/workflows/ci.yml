@@ -26,7 +26,7 @@ jobs:
     - name: Install dependencies
       run: composer install -n --prefer-dist
     - name: Run PHPUnit unit tests
-      run: vendor/bin/phpunit tests/ --coverage-clover=build/logs/clover.xml --whitelist src/
+      run: vendor/bin/phpunit --coverage-clover=build/logs/clover.xml --whitelist src/
     - uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}

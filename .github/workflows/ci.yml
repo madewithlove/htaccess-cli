@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions: ['7.3', '7.4', '8.0']
     steps:
     - uses: actions/checkout@master
     - uses: shivammathur/setup-php@v1
@@ -25,6 +25,10 @@ jobs:
         coverage: pcov
     - name: Install dependencies
       run: composer install -n --prefer-dist
+      if: matrix.php-versions != '8.0'
+    - name: Install dependencies
+      run: composer self-update --snapshot && composer install -n --prefer-dist --ignore-platform-req=php
+      if: matrix.php-versions == '8.0'
     - name: Run PHPUnit unit tests
       run: vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
     - uses: codecov/codecov-action@v1

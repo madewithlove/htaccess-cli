@@ -1,8 +1,8 @@
-name: Verify that master branch is installable and usable
+name: Verify that main branch is installable and usable
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   install-and-test:

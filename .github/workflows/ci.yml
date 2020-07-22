@@ -23,12 +23,13 @@ jobs:
       with:
         php-version: ${{ matrix.php-versions }}
         coverage: pcov
+        tools: composer:v2
     - name: Install dependencies
-      run: composer install -n --prefer-dist
       if: matrix.php-versions != '8.0'
+      run: composer install -n --prefer-dist
     - name: Install dependencies
-      run: composer self-update --snapshot && composer install -n --prefer-dist --ignore-platform-req=php
       if: matrix.php-versions == '8.0'
+      run: composer install -n --prefer-dist --ignore-platform-req=php
     - name: Run PHPUnit unit tests
       run: vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
     - uses: codecov/codecov-action@v1

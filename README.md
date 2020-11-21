@@ -66,6 +66,7 @@ The following options are available:
 -e, --expected-url[=EXPECTED-URL]  When configured, errors when the output url does not equal this url
     --share                        When passed, you'll receive a share url for your test run
 -l, --url-list[=URL-LIST]          Location of the yaml file containing your url list
+-p, --path[=WORKING_DIR]           Path to the location of the .htaccess file you wish to test
 -h, --help                         Display a help message
 ```
 
@@ -89,6 +90,13 @@ You can then run the command using
 
 ```bash
 htaccess --url-list ./url-list.yaml
+```
+
+## Testing against a working directory
+
+If you want to test for a `.htaccess` file outside of the current working directory, you can use the `-p ./path_to_directory` option in the command. For example,
+```bash
+htaccess -p ./html http://localhost/
 ```
 
 ### Note

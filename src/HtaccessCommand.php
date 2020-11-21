@@ -56,7 +56,7 @@ final class HtaccessCommand extends Command
 
         $url = $input->getArgument('url');
 
-        $workingDirectory = isset($input->getOption('path')) ? $input->getOption('path') : getcwd();
+        $workingDirectory = $input->getOption('path') ? $input->getOption('path') : getcwd();
 
         $htaccess = file_get_contents($workingDirectory . '/.htaccess');
 
@@ -144,7 +144,7 @@ final class HtaccessCommand extends Command
     {
         $url = $input->getArgument('url');
         $urlList = $input->getOption('url-list');
-        $workingDirectory = isset($input->getOption('path')) ? $input->getOption('path') : getcwd();
+        $workingDirectory = $input->getOption('path') ? $input->getOption('path') : getcwd();
 
 
         if (is_null($urlList) && is_null($url)) {
@@ -164,6 +164,7 @@ final class HtaccessCommand extends Command
 
         $htaccessFile = $workingDirectory . '/.htaccess';
         if (!file_exists($htaccessFile)) {
+
             throw new RuntimeException('We could not find an .htaccess file in the current directory');
         }
     }

@@ -55,14 +55,14 @@ final class HtaccessCommand extends Command
 
         $url = $input->getArgument('url');
 
-        $workingDirectory = $input->getOption('path') ? $input->getOption('path') : getcwd();
+        $path = $input->getOption('path') ? $input->getOption('path') : getcwd();
 
-        $htaccess = file_get_contents($workingDirectory . '/.htaccess');
+        $htaccess = file_get_contents($path . '/.htaccess');
 
         if ($url) {
             return $this->testSingleUrl($url, $htaccess, $input, $io);
         } else {
-            $urls = Yaml::parseFile($workingDirectory . '/' . $input->getOption('url-list'));
+            $urls = Yaml::parseFile($path . '/' . $input->getOption('url-list'));
             $results = [];
 
             foreach ($urls as $url => $expectedUrl) {
@@ -143,7 +143,7 @@ final class HtaccessCommand extends Command
     {
         $url = $input->getArgument('url');
         $urlList = $input->getOption('url-list');
-        $workingDirectory = $input->getOption('path') ? $input->getOption('path') : getcwd();
+        $path = $input->getOption('path') ? $input->getOption('path') : getcwd();
 
 
         if (is_null($urlList) && is_null($url)) {
@@ -155,13 +155,13 @@ final class HtaccessCommand extends Command
         }
 
         if ($urlList) {
-            $urlList = $workingDirectory . '/' . $urlList;
+            $urlList = $path . '/' . $urlList;
             if (!file_exists($urlList)) {
                 throw new SymfonyRuntimeException('We could not load the specified url list.');
             }
         }
 
-        $htaccessFile = $workingDirectory . '/.htaccess';
+        $htaccessFile = $path . '/.htaccess';
         if (!file_exists($htaccessFile)) {
 
             throw new RuntimeException('We could not find an .htaccess file in the current directory');

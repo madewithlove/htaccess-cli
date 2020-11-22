@@ -102,7 +102,6 @@ final class HtaccessCommandTest extends TestCase
         $commandTester->execute([
             'url' => 'http://localhost',
             '--expected-url' => 'http://localhost/foo',
-            'path' => './',
         ]);
 
         $this->assertEquals(0, $commandTester->getStatusCode());
@@ -120,7 +119,6 @@ final class HtaccessCommandTest extends TestCase
         $commandTester->execute([
             'url' => 'http://localhost',
             '--expected-url' => 'http://localhost/bar',
-            'path' => './',
         ]);
 
         $this->assertEquals(1, $commandTester->getStatusCode());

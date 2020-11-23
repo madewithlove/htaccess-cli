@@ -36,6 +36,7 @@ final class HtaccessCommandTest extends TestCase
         parent::tearDown();
 
         @unlink(getcwd() . '/.htaccess');
+        @unlink(getcwd() . '/tests/.htaccess');
     }
 
     /** @test */
@@ -140,6 +141,26 @@ final class HtaccessCommandTest extends TestCase
 
         $this->assertStringContainsString(
             'You can share this test run on https://htaccess.madewithlove.be?share=',
+            $commandTester->getDisplay()
+        );
+    }
+
+    /** @test */
+    public function it can specify a custom path to the htaccess file(): void
+    {
+        file_put_contents(
+            getcwd() . '/tests/.htaccess',
+            "RewriteRule .* /foo [R=302]"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--path' => getcwd() . '/tests',
+        ]);
+
+        $this->assertStringContainsString(
+            'The output url is "http://localhost/foo"',
             $commandTester->getDisplay()
         );
     }

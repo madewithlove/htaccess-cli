@@ -44,6 +44,7 @@ final class HtaccessCommand extends Command
         $this->addOption('expected-url', 'e', InputOption::VALUE_OPTIONAL, 'When configured, errors when the output url does not equal this url');
         $this->addOption('share', null, InputOption::VALUE_NONE, 'When passed, you\'ll receive a share url for your test run');
         $this->addOption('url-list', 'l', InputOption::VALUE_OPTIONAL, 'Location of the yaml file containing your url list');
+        $this->addOption('path', 'p', InputOption::VALUE_OPTIONAL, 'Path to the working directory you want to test in.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -53,12 +54,15 @@ final class HtaccessCommand extends Command
         $this->validateInput($input);
 
         $url = $input->getArgument('url');
-        $htaccess = file_get_contents(getcwd() . '/.htaccess');
+
+        $path = $input->getOption('path') ? $input->getOption('path') : getcwd();
+
+        $htaccess = file_get_contents($path . '/.htaccess');
 
         if ($url) {
             return $this->testSingleUrl($url, $htaccess, $input, $io);
         } else {
-            $urls = Yaml::parseFile(getcwd() . '/' . $input->getOption('url-list'));
+            $urls = Yaml::parseFile($path . '/' . $input->getOption('url-list'));
             $results = [];
 
             foreach ($urls as $url => $expectedUrl) {
@@ -139,6 +143,8 @@ final class HtaccessCommand extends Command
     {
         $url = $input->getArgument('url');
         $urlList = $input->getOption('url-list');
+        $path = $input->getOption('path') ? $input->getOption('path') : getcwd();
+
 
         if (is_null($urlList) && is_null($url)) {
             throw new SymfonyRuntimeException('Not enough arguments (missing: "url")');
@@ -149,14 +155,15 @@ final class HtaccessCommand extends Command
         }
 
         if ($urlList) {
-            $urlList = getcwd() . '/' . $urlList;
+            $urlList = $path . '/' . $urlList;
             if (!file_exists($urlList)) {
                 throw new SymfonyRuntimeException('We could not load the specified url list.');
             }
         }
 
-        $htaccessFile = getcwd() . '/.htaccess';
+        $htaccessFile = $path . '/.htaccess';
         if (!file_exists($htaccessFile)) {
+
             throw new RuntimeException('We could not find an .htaccess file in the current directory');
         }
     }

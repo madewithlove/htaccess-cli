@@ -164,4 +164,24 @@ final class HtaccessCommandTest extends TestCase
             $commandTester->getDisplay()
         );
     }
+
+    /** @test */
+    public function it does mark an unsupported line as potentially invalid(): void
+    {
+        file_put_contents(
+            getcwd() . '/tests/.htaccess',
+            "<IfModule mod_rewrite.c>"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--path' => getcwd() . '/tests',
+        ]);
+
+        $this->assertStringContainsString(
+            '?',
+            $commandTester->getDisplay()
+        );
+    }
 }

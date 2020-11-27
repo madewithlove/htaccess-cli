@@ -21,7 +21,9 @@ final class TableRenderer
             array_map(
                 function (ResultLine $resultLine): array {
                     return [
-                        $this->prettifyBoolean($resultLine->isValid()),
+                        $resultLine->isSupported()
+                            ? $this->prettifyBoolean($resultLine->isValid())
+                            : '<comment>?</comment>',
                         $this->prettifyBoolean($resultLine->wasReached()),
                         $this->prettifyBoolean($resultLine->isMet()),
                         $resultLine->getLine(),

@@ -4,7 +4,5 @@ updates:
   directory: "/"
   schedule:
     interval: daily
-    time: "07:30"
-  reviewers:
-  - WouterSioen
+    time: "03:30"
   versioning-strategy: widen

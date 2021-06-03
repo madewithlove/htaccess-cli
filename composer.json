@@ -7,7 +7,7 @@
         "symfony/console": "^3.0 || ^4.0 || ^5.0",
         "php-http/guzzle6-adapter": "^2.0",
         "http-interop/http-factory-guzzle": "^1.0",
-        "madewithlove/htaccess-api-client": "^1.5",
+        "madewithlove/htaccess-api-client": "^1.6",
         "symfony/yaml": "^3.0 || ^4.0 || ^5.0"
     },
     "bin": [

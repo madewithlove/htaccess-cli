@@ -71,9 +71,11 @@ final class HtaccessCommand extends Command
                     $url = $expectedUrl;
                 }
 
+                $htaccessResult = $this->test($url, $htaccess, $input);
+
                 $result = [
                     'url' => $url,
-                    'output_url' => $this->test($url, $htaccess, $input)->getOutputUrl(),
+                    'output_url' => $htaccessResult->getOutputUrl(),
                 ];
 
                 if ($hasExpectedUrl) {

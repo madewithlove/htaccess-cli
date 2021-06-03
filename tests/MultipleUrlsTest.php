@@ -5,7 +5,6 @@ namespace Madewithlove;
 use Http\Adapter\Guzzle6\Client;
 use Http\Factory\Guzzle\ServerRequestFactory;
 use Madewithlove\Htaccess\TableRenderer;
-use Madewithlove\HtaccessClient;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -94,6 +93,33 @@ final class MultipleUrlsTest extends TestCase
         );
         $this->assertStringContainsString(
             'http://localhost/foo/bar',
+            $commandTester->getDisplay()
+        );
+
+        $this->assertEquals(0, $commandTester->getStatusCode());
+    }
+
+    /** @test */
+    public function it renders status code with multiple urls(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteRule (.*) /foo/$1 [R=302]"
+        );
+        file_put_contents(
+            getcwd() . '/test-urls.yaml',
+            "- http://localhost/test
+- http://localhost/bar"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            '--url-list' => 'test-urls.yaml',
+        ]);
+
+        // it outputs the output urls
+        $this->assertStringContainsString(
+            '302',
             $commandTester->getDisplay()
         );
 

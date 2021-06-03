@@ -76,6 +76,7 @@ final class HtaccessCommand extends Command
                 $result = [
                     'url' => $url,
                     'output_url' => $htaccessResult->getOutputUrl(),
+                    'status_code' => $htaccessResult->getOutputStatusCode(),
                 ];
 
                 if ($hasExpectedUrl) {

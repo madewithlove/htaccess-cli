@@ -35,6 +35,9 @@ final class TableRenderer
         );
     }
 
+    /**
+     * @param array<int, array{'url': string, 'output_url': string, 'status_code': ?int, 'expected url'?: string, 'matches'?: bool}> $results
+     */
     public function renderMultipleLineResult(array $results, SymfonyStyle $io): void
     {
         $hasExpectedUrl = !empty(array_filter(

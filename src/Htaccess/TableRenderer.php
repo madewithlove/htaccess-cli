@@ -44,7 +44,7 @@ final class TableRenderer
             }
         ));
 
-        $headers = [ 'url', 'output url' ];
+        $headers = [ 'url', 'output url', 'status code' ];
         if ($hasExpectedUrl) {
             $headers = array_merge($headers, ['expected url', 'matches']);
         }

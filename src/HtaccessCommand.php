@@ -36,7 +36,7 @@ final class HtaccessCommand extends Command
         $this->tableRenderer = $tableRenderer;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->addArgument('url', InputArgument::OPTIONAL, 'The request url to test your .htaccess file with');
         $this->addOption('referrer', 'r', InputOption::VALUE_OPTIONAL, 'The referrer header, used as HTTP_REFERER in apache');
@@ -47,22 +47,29 @@ final class HtaccessCommand extends Command
         $this->addOption('path', 'p', InputOption::VALUE_OPTIONAL, 'Path to the working directory you want to test in.');
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
 
         $this->validateInput($input);
 
+        /** @var string $url */
         $url = $input->getArgument('url');
 
+        /** @var string $path */
         $path = $input->getOption('path') ? $input->getOption('path') : getcwd();
 
+        /** @var string $htaccess */
         $htaccess = file_get_contents($path . '/.htaccess');
 
         if ($url) {
             return $this->testSingleUrl($url, $htaccess, $input, $io);
         } else {
-            $urls = Yaml::parse(file_get_contents($path . '/' . $input->getOption('url-list')));
+            /** @var string $urlListFile */
+            $urlListFile = $input->getOption('url-list');
+            /** @var string[] $urls */
+            $urls = Yaml::parse(file_get_contents($path . '/' . $urlListFile));
+
             $results = [];
 
             foreach ($urls as $url => $expectedUrl) {
@@ -71,9 +78,12 @@ final class HtaccessCommand extends Command
                     $url = $expectedUrl;
                 }
 
+                $htaccessResult = $this->test($url, $htaccess, $input);
+
                 $result = [
                     'url' => $url,
-                    'output_url' => $this->test($url, $htaccess, $input)->getOutputUrl(),
+                    'output_url' => $htaccessResult->getOutputUrl(),
+                    'status_code' => $htaccessResult->getOutputStatusCode(),
                 ];
 
                 if ($hasExpectedUrl) {
@@ -115,12 +125,12 @@ final class HtaccessCommand extends Command
 
         if ($input->getOption('share')) {
             try {
-                $share = $this->htaccessClient->share(
-                    $url,
-                    $htaccess,
-                    $input->getOption('referrer'),
-                    $input->getOption('server-name')
-                );
+                /** @var ?string $referrer */
+                $referrer = $input->getOption('referrer');
+                /** @var ?string $serverName */
+                $serverName = $input->getOption('server-name');
+
+                $share = $this->htaccessClient->share($url, $htaccess, $referrer, $serverName);
 
                 $io->text('You can share this test run on ' . $share->getShareUrl());
             } catch (HtaccessException $exception) {
@@ -128,8 +138,11 @@ final class HtaccessCommand extends Command
             }
         }
 
-        if ($input->getOption('expected-url') && $result->getOutputUrl() !== $input->getOption('expected-url')) {
-            $io->error('The output url is "' . $result->getOutputUrl() . '", while we expected "' . $input->getOption('expected-url') . '"');
+        /** @var ?string $expectedUrl */
+        $expectedUrl = $input->getOption('expected-url');
+
+        if ($expectedUrl && $result->getOutputUrl() !== $expectedUrl) {
+            $io->error('The output url is "' . $result->getOutputUrl() . '", while we expected "' . $expectedUrl . '"');
 
             return 1;
         }
@@ -139,10 +152,13 @@ final class HtaccessCommand extends Command
         return 0;
     }
 
-    private function validateInput(InputInterface $input)
+    private function validateInput(InputInterface $input): void
     {
+        /** @var ?string $url */
         $url = $input->getArgument('url');
+        /** @var ?string $urlList */
         $urlList = $input->getOption('url-list');
+        /** @var ?string $path */
         $path = $input->getOption('path') ? $input->getOption('path') : getcwd();
 
 
@@ -170,12 +186,12 @@ final class HtaccessCommand extends Command
 
     private function test(string $url, string $htaccess, InputInterface $input, ?SymfonyStyle $io = null): HtaccessResult
     {
-        $result = $this->htaccessClient->test(
-            $url,
-            $htaccess,
-            $input->getOption('referrer'),
-            $input->getOption('server-name')
-        );
+        /** @var ?string $referrer */
+        $referrer = $input->getOption('referrer');
+        /** @var ?string $serverName */
+        $serverName = $input->getOption('server-name');
+
+        $result = $this->htaccessClient->test($url, $htaccess, $referrer, $serverName);
 
         if ($io) {
             $this->tableRenderer->renderHtaccessResult($result, $io);

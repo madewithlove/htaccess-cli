@@ -35,7 +35,10 @@ final class TableRenderer
         );
     }
 
-    public function renderMultipleLineResult(array $results, $io): void
+    /**
+     * @param array<int, array{'url': string, 'output_url': string, 'status_code': ?int, 'expected url'?: string, 'matches'?: bool}> $results
+     */
+    public function renderMultipleLineResult(array $results, SymfonyStyle $io): void
     {
         $hasExpectedUrl = !empty(array_filter(
             $results,
@@ -44,7 +47,7 @@ final class TableRenderer
             }
         ));
 
-        $headers = [ 'url', 'output url' ];
+        $headers = [ 'url', 'output url', 'status code' ];
         if ($hasExpectedUrl) {
             $headers = array_merge($headers, ['expected url', 'matches']);
         }

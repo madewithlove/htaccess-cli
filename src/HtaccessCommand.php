@@ -68,7 +68,7 @@ final class HtaccessCommand extends Command
             /** @var string $urlListFile */
             $urlListFile = $input->getOption('url-list');
             /** @var string[] $urls */
-            $urls = Yaml::parse(file_get_contents($path . '/' . $urlListFile));
+            $urls = Yaml::parse((string) file_get_contents($path . '/' . $urlListFile));
 
             $results = [];
 

@@ -62,7 +62,7 @@ final class HtaccessCommand extends Command
         if ($url) {
             return $this->testSingleUrl($url, $htaccess, $input, $io);
         } else {
-            $urls = Yaml::parseFile($path . '/' . $input->getOption('url-list'));
+            $urls = Yaml::parse(file_get_contents($path . '/' . $input->getOption('url-list')));
             $results = [];
 
             foreach ($urls as $url => $expectedUrl) {

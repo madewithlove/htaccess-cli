@@ -30,7 +30,7 @@ final class HtaccessCommand extends Command
 
     public function __construct(HtaccessClient $htaccessClient, TableRenderer $tableRenderer)
     {
-        parent::__construct();
+        parent::__construct(self::$defaultName);
 
         $this->htaccessClient = $htaccessClient;
         $this->tableRenderer = $tableRenderer;

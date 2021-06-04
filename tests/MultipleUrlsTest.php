@@ -2,7 +2,7 @@
 
 namespace Madewithlove;
 
-use Http\Adapter\Guzzle6\Client;
+use Http\Adapter\Guzzle7\Client;
 use Http\Factory\Guzzle\ServerRequestFactory;
 use Madewithlove\Htaccess\TableRenderer;
 use PHPUnit\Framework\TestCase;

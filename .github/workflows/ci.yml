@@ -17,6 +17,7 @@ jobs:
     strategy:
       matrix:
         php-versions: ['7.3', '7.4', '8.0']
+        prefer-lowest: ['', '--prefer-lowest']
     steps:
     - uses: actions/checkout@master
     - uses: shivammathur/setup-php@v1
@@ -26,7 +27,7 @@ jobs:
         tools: composer:v2
     - name: Install dependencies
       if: matrix.php-versions != '8.0'
-      run: composer install -n --prefer-dist
+      run: composer update -n --prefer-dist ${{ matrix.prefer-lowest }}
     - name: Install dependencies
       if: matrix.php-versions == '8.0'
       run: composer install -n --prefer-dist --ignore-platform-req=php

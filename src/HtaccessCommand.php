@@ -30,7 +30,7 @@ final class HtaccessCommand extends Command
 
     public function __construct(HtaccessClient $htaccessClient, TableRenderer $tableRenderer)
     {
-        parent::__construct();
+        parent::__construct(self::$defaultName);
 
         $this->htaccessClient = $htaccessClient;
         $this->tableRenderer = $tableRenderer;
@@ -68,7 +68,8 @@ final class HtaccessCommand extends Command
             /** @var string $urlListFile */
             $urlListFile = $input->getOption('url-list');
             /** @var string[] $urls */
-            $urls = Yaml::parseFile($path . '/' . $urlListFile);
+            $urls = Yaml::parse((string) file_get_contents($path . '/' . $urlListFile));
+
             $results = [];
 
             foreach ($urls as $url => $expectedUrl) {

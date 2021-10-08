@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4', '8.0']
+        php-versions: ['8.0', '8.1']
         prefer-lowest: ['', '--prefer-lowest']
     steps:
     - uses: actions/checkout@master
@@ -26,17 +26,17 @@ jobs:
         coverage: pcov
         tools: composer:v2
     - name: Install dependencies
-      if: matrix.php-versions != '8.0'
+      if: matrix.php-versions != '8.1'
       run: composer update -n --prefer-dist ${{ matrix.prefer-lowest }}
     - name: Install dependencies
-      if: matrix.php-versions == '8.0'
+      if: matrix.php-versions == '8.1'
       run: composer install -n --prefer-dist --ignore-platform-req=php
     - name: Run PHPUnit unit tests
       run: vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
     - uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-      if: matrix.php-versions == '7.4'
+      if: matrix.php-versions == '8.0'
 
   run:
     name: Run current version

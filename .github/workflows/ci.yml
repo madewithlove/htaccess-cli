@@ -12,11 +12,9 @@ jobs:
         php-version: '8.0'
         tools: composer:v2
     - name: Install dependencies
-      run: composer update -n --prefer-dist ${{ matrix.prefer-lowest }}
+      run: composer update -n --prefer-dist
     - name: PHPStan
-      uses: docker://oskarstark/phpstan-ga
-      with:
-        args: analyse
+      run: vendor/bin/phpstan analyse
 
   phpunit:
     runs-on: ubuntu-latest

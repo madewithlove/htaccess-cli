@@ -12,10 +12,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 final class HtaccessCommandTest extends TestCase
 {
-    /**
-     * @var HtaccessCommand
-     */
-    private $command;
+    private HtaccessCommand $command;
 
     public function setUp(): void
     {

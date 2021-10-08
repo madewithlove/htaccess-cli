@@ -3,7 +3,6 @@
 namespace Madewithlove;
 
 use Madewithlove\Htaccess\TableRenderer;
-use Madewithlove\HtaccessResult;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException as SymfonyRuntimeException;
@@ -16,24 +15,13 @@ use Symfony\Component\Yaml\Yaml;
 
 final class HtaccessCommand extends Command
 {
-    /**
-     * @var HtaccessClient
-     */
-    private $htaccessClient;
-
-    /**
-     * @var TableRenderer
-     */
-    private $tableRenderer;
-
     protected static $defaultName = 'htaccess';
 
-    public function __construct(HtaccessClient $htaccessClient, TableRenderer $tableRenderer)
-    {
+    public function __construct(
+        private HtaccessClient $htaccessClient,
+        private TableRenderer $tableRenderer
+    ) {
         parent::__construct(self::$defaultName);
-
-        $this->htaccessClient = $htaccessClient;
-        $this->tableRenderer = $tableRenderer;
     }
 
     protected function configure(): void

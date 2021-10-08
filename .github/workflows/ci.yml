@@ -7,36 +7,40 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: PHPStan
-      uses: docker://oskarstark/phpstan-ga
+    - uses: shivammathur/setup-php@v2
       with:
-        args: analyse
+        php-version: '8.0'
+        tools: composer
+    - name: Install dependencies
+      run: composer update -n --prefer-dist
+    - name: PHPStan
+      run: vendor/bin/phpstan analyse
 
   phpunit:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['7.3', '7.4', '8.0']
+        php-versions: ['8.0', '8.1']
         prefer-lowest: ['', '--prefer-lowest']
     steps:
     - uses: actions/checkout@master
-    - uses: shivammathur/setup-php@v1
+    - uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-versions }}
         coverage: pcov
-        tools: composer:v2
+        tools: composer
     - name: Install dependencies
-      if: matrix.php-versions != '8.0'
+      if: matrix.php-versions != '8.1'
       run: composer update -n --prefer-dist ${{ matrix.prefer-lowest }}
     - name: Install dependencies
-      if: matrix.php-versions == '8.0'
+      if: matrix.php-versions == '8.1'
       run: composer install -n --prefer-dist --ignore-platform-req=php
     - name: Run PHPUnit unit tests
       run: vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
     - uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-      if: matrix.php-versions == '7.4'
+      if: matrix.php-versions == '8.0'
 
   run:
     name: Run current version

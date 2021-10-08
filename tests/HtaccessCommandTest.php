@@ -5,17 +5,13 @@ namespace Madewithlove;
 use Http\Adapter\Guzzle7\Client;
 use Http\Factory\Guzzle\ServerRequestFactory;
 use Madewithlove\Htaccess\TableRenderer;
-use Madewithlove\HtaccessClient;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
 
 final class HtaccessCommandTest extends TestCase
 {
-    /**
-     * @var HtaccessCommand
-     */
-    private $command;
+    private HtaccessCommand $command;
 
     public function setUp(): void
     {
@@ -181,6 +177,46 @@ final class HtaccessCommandTest extends TestCase
 
         $this->assertStringContainsString(
             '?',
+            $commandTester->getDisplay()
+        );
+    }
+
+    /** @test */
+    public function it supports http referrer(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteCond %{HTTP_REFERER} https://example.com\nRewriteRule .* /foo"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--referrer' => 'https://example.com'
+        ]);
+
+        $this->assertStringContainsString(
+            'The output url is "http://localhost/foo"',
+            $commandTester->getDisplay()
+        );
+    }
+
+    /** @test */
+    public function it supports server name(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteCond %{SERVER_NAME} example.com\nRewriteRule .* /foo"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--server-name' => 'example.com'
+        ]);
+
+        $this->assertStringContainsString(
+            'The output url is "http://localhost/foo"',
             $commandTester->getDisplay()
         );
     }

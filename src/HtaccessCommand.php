@@ -3,7 +3,6 @@
 namespace Madewithlove;
 
 use Madewithlove\Htaccess\TableRenderer;
-use Madewithlove\HtaccessResult;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException as SymfonyRuntimeException;
@@ -16,24 +15,13 @@ use Symfony\Component\Yaml\Yaml;
 
 final class HtaccessCommand extends Command
 {
-    /**
-     * @var HtaccessClient
-     */
-    private $htaccessClient;
-
-    /**
-     * @var TableRenderer
-     */
-    private $tableRenderer;
-
     protected static $defaultName = 'htaccess';
 
-    public function __construct(HtaccessClient $htaccessClient, TableRenderer $tableRenderer)
-    {
+    public function __construct(
+        private HtaccessClient $htaccessClient,
+        private TableRenderer $tableRenderer
+    ) {
         parent::__construct(self::$defaultName);
-
-        $this->htaccessClient = $htaccessClient;
-        $this->tableRenderer = $tableRenderer;
     }
 
     protected function configure(): void
@@ -125,13 +113,7 @@ final class HtaccessCommand extends Command
 
         if ($input->getOption('share')) {
             try {
-                /** @var ?string $referrer */
-                $referrer = $input->getOption('referrer');
-                /** @var ?string $serverName */
-                $serverName = $input->getOption('server-name');
-
-                $share = $this->htaccessClient->share($url, $htaccess, $referrer, $serverName);
-
+                $share = $this->htaccessClient->share($url, $htaccess, $this->getServerVariables($input));
                 $io->text('You can share this test run on ' . $share->getShareUrl());
             } catch (HtaccessException $exception) {
                 // when sharing failed, just ignore it
@@ -186,17 +168,26 @@ final class HtaccessCommand extends Command
 
     private function test(string $url, string $htaccess, InputInterface $input, ?SymfonyStyle $io = null): HtaccessResult
     {
-        /** @var ?string $referrer */
-        $referrer = $input->getOption('referrer');
-        /** @var ?string $serverName */
-        $serverName = $input->getOption('server-name');
-
-        $result = $this->htaccessClient->test($url, $htaccess, $referrer, $serverName);
+        $result = $this->htaccessClient->test($url, $htaccess, $this->getServerVariables($input));
 
         if ($io) {
             $this->tableRenderer->renderHtaccessResult($result, $io);
         }
 
         return $result;
+    }
+
+    private function getServerVariables(InputInterface $input): ServerVariables
+    {
+        $serverVariables = ServerVariables::default();
+        if ($referrer = $input->getOption('referrer')) {
+            $serverVariables = $serverVariables->with(ServerVariable::HTTP_REFERER, $referrer);
+        }
+
+        if ($serverName = $input->getOption('server-name')) {
+            $serverVariables = $serverVariables->with(ServerVariable::SERVER_NAME, $serverName);
+        }
+
+        return $serverVariables;
     }
 }

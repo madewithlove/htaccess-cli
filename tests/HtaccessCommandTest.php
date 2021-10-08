@@ -184,4 +184,44 @@ final class HtaccessCommandTest extends TestCase
             $commandTester->getDisplay()
         );
     }
+
+    /** @test */
+    public function it supports http referrer(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteCond %{HTTP_REFERER} https://example.com\nRewriteRule .* /foo"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--referrer' => 'https://example.com'
+        ]);
+
+        $this->assertStringContainsString(
+            'The output url is "http://localhost/foo"',
+            $commandTester->getDisplay()
+        );
+    }
+
+    /** @test */
+    public function it supports server name(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteCond %{SERVER_NAME} example.com\nRewriteRule .* /foo"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--server-name' => 'example.com'
+        ]);
+
+        $this->assertStringContainsString(
+            'The output url is "http://localhost/foo"',
+            $commandTester->getDisplay()
+        );
+    }
 }

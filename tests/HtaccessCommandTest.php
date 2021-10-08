@@ -5,7 +5,6 @@ namespace Madewithlove;
 use Http\Adapter\Guzzle7\Client;
 use Http\Factory\Guzzle\ServerRequestFactory;
 use Madewithlove\Htaccess\TableRenderer;
-use Madewithlove\HtaccessClient;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;

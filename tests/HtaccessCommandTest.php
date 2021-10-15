@@ -220,4 +220,24 @@ final class HtaccessCommandTest extends TestCase
             $commandTester->getDisplay()
         );
     }
+
+    /** @test */
+    public function it supports http user agent(): void
+    {
+        file_put_contents(
+            getcwd() . '/.htaccess',
+            "RewriteCond %{HTTP_USER_AGENT} iPhone\nRewriteRule .* /foo"
+        );
+
+        $commandTester = new CommandTester($this->command);
+        $commandTester->execute([
+            'url' => 'http://localhost',
+            '--http-user-agent' => 'iPhone'
+        ]);
+
+        $this->assertStringContainsString(
+            'The output url is "http://localhost/foo"',
+            $commandTester->getDisplay()
+        );
+    }
 }

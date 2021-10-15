@@ -29,6 +29,7 @@ final class HtaccessCommand extends Command
         $this->addArgument('url', InputArgument::OPTIONAL, 'The request url to test your .htaccess file with');
         $this->addOption('referrer', 'r', InputOption::VALUE_OPTIONAL, 'The referrer header, used as HTTP_REFERER in apache');
         $this->addOption('server-name', 's', InputOption::VALUE_OPTIONAL, 'The configured server name, used as SERVER_NAME in apache');
+        $this->addOption('http-user-agent', null, InputOption::VALUE_OPTIONAL, 'The User Agent header, used as HTTP_USER_AGENT in apache');
         $this->addOption('expected-url', 'e', InputOption::VALUE_OPTIONAL, 'When configured, errors when the output url does not equal this url');
         $this->addOption('share', null, InputOption::VALUE_NONE, 'When passed, you\'ll receive a share url for your test run');
         $this->addOption('url-list', 'l', InputOption::VALUE_OPTIONAL, 'Location of the yaml file containing your url list');
@@ -186,6 +187,10 @@ final class HtaccessCommand extends Command
 
         if ($serverName = $input->getOption('server-name')) {
             $serverVariables = $serverVariables->with(ServerVariable::SERVER_NAME, $serverName);
+        }
+
+        if ($httpUserAgent = $input->getOption('http-user-agent')) {
+            $serverVariables = $serverVariables->with(ServerVariable::HTTP_USER_AGENT, $httpUserAgent);
         }
 
         return $serverVariables;

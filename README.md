@@ -15,7 +15,7 @@ To start performing analysis on your code, require htaccess CLI in Composer:
 composer require --dev madewithlove/htaccess-cli
 ```
 
-Composer will install htaccess-cli's executable in its bin-dir which defaults to vendor/bin.
+Composer will install htaccess-cli's executable in its bin-dir, which defaults to vendor/bin.
 
 ### Global installation
 
@@ -54,7 +54,7 @@ docker run --rm -v $PWD:/app madewithlove/htaccess-cli [url] <options>
 
 ### Usage as a GitHub Action
 
-Check https://github.com/madewithlove/htaccess-cli-github-action if you want verify how .htaccess files behave in a GitHub Action.
+Check https://github.com/madewithlove/htaccess-cli-github-action if you want to verify how .htaccess files behave in a GitHub Action.
 
 ## CLI Options
 

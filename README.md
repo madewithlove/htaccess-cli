@@ -61,13 +61,14 @@ Check https://github.com/madewithlove/htaccess-cli-github-action if you want to 
 The following options are available:
 
 ```
--r, --referrer[=REFERRER]          The referrer header, used as HTTP_REFERER in apache
--s, --server-name[=SERVER-NAME]    The configured server name, used as SERVER_NAME in apache
--e, --expected-url[=EXPECTED-URL]  When configured, errors when the output url does not equal this url
-    --share                        When passed, you'll receive a share url for your test run
--l, --url-list[=URL-LIST]          Location of the yaml file containing your url list
--p, --path[=WORKING_DIR]           Path to the location of the .htaccess file you wish to test
--h, --help                         Display a help message
+-r, --referrer[=REFERRER]           The referrer header, used as HTTP_REFERER in apache
+--http-user-agent[=HTTP_USER_AGENT] The User Agent header, used as HTTP_USER_AGENT in apache
+-s, --server-name[=SERVER-NAME]     The configured server name, used as SERVER_NAME in apache
+-e, --expected-url[=EXPECTED-URL]   When configured, errors when the output url does not equal this url
+    --share                         When passed, you'll receive a share url for your test run
+-l, --url-list[=URL-LIST]           Location of the yaml file containing your url list
+-p, --path[=WORKING_DIR]            Path to the location of the .htaccess file you wish to test
+-h, --help                          Display a help message
 ```
 
 ## Usages with multiple url's

@@ -2,6 +2,7 @@
 
 namespace Madewithlove;
 
+use InvalidArgumentException;
 use Madewithlove\Htaccess\TableRenderer;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
@@ -27,13 +28,13 @@ final class HtaccessCommand extends Command
     protected function configure(): void
     {
         $this->addArgument('url', InputArgument::OPTIONAL, 'The request url to test your .htaccess file with');
-        $this->addOption('referrer', 'r', InputOption::VALUE_OPTIONAL, 'The referrer header, used as HTTP_REFERER in apache');
-        $this->addOption('server-name', 's', InputOption::VALUE_OPTIONAL, 'The configured server name, used as SERVER_NAME in apache');
-        $this->addOption('http-user-agent', null, InputOption::VALUE_OPTIONAL, 'The User Agent header, used as HTTP_USER_AGENT in apache');
-        $this->addOption('expected-url', 'e', InputOption::VALUE_OPTIONAL, 'When configured, errors when the output url does not equal this url');
+        $this->addOption('referrer', 'r', InputOption::VALUE_REQUIRED, 'The referrer header, used as HTTP_REFERER in apache');
+        $this->addOption('server-name', 's', InputOption::VALUE_REQUIRED, 'The configured server name, used as SERVER_NAME in apache');
+        $this->addOption('http-user-agent', null, InputOption::VALUE_REQUIRED, 'The User Agent header, used as HTTP_USER_AGENT in apache');
+        $this->addOption('expected-url', 'e', InputOption::VALUE_REQUIRED, 'When configured, errors when the output url does not equal this url');
         $this->addOption('share', null, InputOption::VALUE_NONE, 'When passed, you\'ll receive a share url for your test run');
-        $this->addOption('url-list', 'l', InputOption::VALUE_OPTIONAL, 'Location of the yaml file containing your url list');
-        $this->addOption('path', 'p', InputOption::VALUE_OPTIONAL, 'Path to the working directory you want to test in.');
+        $this->addOption('url-list', 'l', InputOption::VALUE_REQUIRED, 'Location of the yaml file containing your url list');
+        $this->addOption('path', 'p', InputOption::VALUE_REQUIRED, 'Path to the working directory you want to test in.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -182,15 +183,18 @@ final class HtaccessCommand extends Command
     {
         $serverVariables = ServerVariables::default();
         if ($referrer = $input->getOption('referrer')) {
-            $serverVariables = $serverVariables->with(ServerVariable::HTTP_REFERER, $referrer);
+            /** @var string $referrer */
+            $serverVariables = $serverVariables->with('HTTP_REFERER', $referrer);
         }
 
         if ($serverName = $input->getOption('server-name')) {
-            $serverVariables = $serverVariables->with(ServerVariable::SERVER_NAME, $serverName);
+            /** @var string $serverName */
+            $serverVariables = $serverVariables->with('SERVER_NAME', $serverName);
         }
 
         if ($httpUserAgent = $input->getOption('http-user-agent')) {
-            $serverVariables = $serverVariables->with(ServerVariable::HTTP_USER_AGENT, $httpUserAgent);
+            /** @var string $httpUserAgent */
+            $serverVariables = $serverVariables->with('HTTP_USER_AGENT', $httpUserAgent);
         }
 
         return $serverVariables;

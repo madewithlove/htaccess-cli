@@ -182,15 +182,15 @@ final class HtaccessCommand extends Command
     {
         $serverVariables = ServerVariables::default();
         if ($referrer = $input->getOption('referrer')) {
-            $serverVariables = $serverVariables->with(ServerVariable::HTTP_REFERER, $referrer);
+            $serverVariables = $serverVariables->with('HTTP_REFERER', $referrer);
         }
 
         if ($serverName = $input->getOption('server-name')) {
-            $serverVariables = $serverVariables->with(ServerVariable::SERVER_NAME, $serverName);
+            $serverVariables = $serverVariables->with('SERVER_NAME', $serverName);
         }
 
         if ($httpUserAgent = $input->getOption('http-user-agent')) {
-            $serverVariables = $serverVariables->with(ServerVariable::HTTP_USER_AGENT, $httpUserAgent);
+            $serverVariables = $serverVariables->with('HTTP_USER_AGENT', $httpUserAgent);
         }
 
         return $serverVariables;

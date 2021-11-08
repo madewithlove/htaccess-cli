@@ -183,23 +183,17 @@ final class HtaccessCommand extends Command
     {
         $serverVariables = ServerVariables::default();
         if ($referrer = $input->getOption('referrer')) {
-            if (!is_string($referrer)) {
-                throw new InvalidArgumentException('Referrer should be a string');
-            }
+            /** @var string $referrer */
             $serverVariables = $serverVariables->with('HTTP_REFERER', $referrer);
         }
 
         if ($serverName = $input->getOption('server-name')) {
-            if (!is_string($serverName)) {
-                throw new InvalidArgumentException('Server name should be a string');
-            }
+            /** @var string $serverName */
             $serverVariables = $serverVariables->with('SERVER_NAME', $serverName);
         }
 
         if ($httpUserAgent = $input->getOption('http-user-agent')) {
-            if (!is_string($httpUserAgent)) {
-                throw new InvalidArgumentException('Http user agent should be a string');
-            }
+            /** @var string $httpUserAgent */
             $serverVariables = $serverVariables->with('HTTP_USER_AGENT', $httpUserAgent);
         }
 

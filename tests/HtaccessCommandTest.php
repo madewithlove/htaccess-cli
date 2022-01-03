@@ -136,7 +136,7 @@ final class HtaccessCommandTest extends TestCase
         ]);
 
         $this->assertStringContainsString(
-            'You can share this test run on https://htaccess.madewithlove.be?share=',
+            'You can share this test run on https://htaccess.madewithlove.com?share=',
             $commandTester->getDisplay()
         );
     }

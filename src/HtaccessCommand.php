@@ -4,6 +4,10 @@ namespace Madewithlove;
 
 use InvalidArgumentException;
 use Madewithlove\Htaccess\TableRenderer;
+use Madewithlove\HtaccessApiClient\HtaccessClient;
+use Madewithlove\HtaccessApiClient\HtaccessException;
+use Madewithlove\HtaccessApiClient\HtaccessResult;
+use Madewithlove\HtaccessApiClient\ServerVariables;
 use RuntimeException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException as SymfonyRuntimeException;

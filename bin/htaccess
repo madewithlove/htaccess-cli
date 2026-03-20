@@ -16,7 +16,7 @@ foreach ($potentialAutoloadLocations as $file) {
 use Http\Adapter\Guzzle7\Client;
 use Http\Factory\Guzzle\ServerRequestFactory;
 use Madewithlove\Htaccess\TableRenderer;
-use Madewithlove\HtaccessClient;
+use Madewithlove\HtaccessApiClient\HtaccessClient;
 use Madewithlove\HtaccessCommand;
 use Symfony\Component\Console\Application;
 
@@ -32,7 +32,7 @@ $htaccessClient = new HtaccessClient(
 );
 
 $htaccessCommand = new HtaccessCommand($htaccessClient, new TableRenderer());
-$application->add($htaccessCommand);
+$application->addCommand($htaccessCommand);
 $application->setDefaultCommand($htaccessCommand->getName(), true);
 
 $application->run();

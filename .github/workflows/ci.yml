@@ -9,7 +9,7 @@ jobs:
     - uses: actions/checkout@master
     - uses: shivammathur/setup-php@v2
       with:
-        php-version: '8.0'
+        php-version: '8.4'
         tools: composer
     - name: Install dependencies
       run: composer update -n --prefer-dist
@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        php-versions: ['8.0', '8.1']
+        php-versions: ['8.4', '8.5']
         prefer-lowest: ['', '--prefer-lowest']
     steps:
     - uses: actions/checkout@master
@@ -30,23 +30,23 @@ jobs:
         coverage: pcov
         tools: composer
     - name: Install dependencies
-      if: matrix.php-versions != '8.1'
       run: composer update -n --prefer-dist ${{ matrix.prefer-lowest }}
-    - name: Install dependencies
-      if: matrix.php-versions == '8.1'
-      run: composer install -n --prefer-dist --ignore-platform-req=php
     - name: Run PHPUnit unit tests
       run: vendor/bin/phpunit --coverage-clover=build/logs/clover.xml
     - uses: codecov/codecov-action@v1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-      if: matrix.php-versions == '8.0'
+      if: matrix.php-versions == '8.4'
 
   run:
     name: Run current version
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
+    - uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.4'
+        tools: composer
     - name: Install dependencies
       run: composer install -n --prefer-dist
     - name: Add a very basic htaccess file

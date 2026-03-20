@@ -2,8 +2,8 @@
 
 namespace Madewithlove\Htaccess;
 
-use Madewithlove\HtaccessResult;
-use Madewithlove\ResultLine;
+use Madewithlove\HtaccessApiClient\HtaccessResult;
+use Madewithlove\HtaccessApiClient\ResultLine;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 final class TableRenderer

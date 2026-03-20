@@ -32,7 +32,7 @@ $htaccessClient = new HtaccessClient(
 );
 
 $htaccessCommand = new HtaccessCommand($htaccessClient, new TableRenderer());
-$application->add($htaccessCommand);
+$application->addCommand($htaccessCommand);
 $application->setDefaultCommand($htaccessCommand->getName(), true);
 
 $application->run();

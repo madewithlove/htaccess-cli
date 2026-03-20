@@ -9,6 +9,7 @@ use Madewithlove\HtaccessApiClient\HtaccessException;
 use Madewithlove\HtaccessApiClient\HtaccessResult;
 use Madewithlove\HtaccessApiClient\ServerVariables;
 use RuntimeException;
+use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\RuntimeException as SymfonyRuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
@@ -18,15 +19,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Yaml\Yaml;
 
+#[AsCommand(name: 'htaccess')]
 final class HtaccessCommand extends Command
 {
-    protected static $defaultName = 'htaccess';
-
     public function __construct(
         private HtaccessClient $htaccessClient,
         private TableRenderer $tableRenderer
     ) {
-        parent::__construct(self::$defaultName);
+        parent::__construct();
     }
 
     protected function configure(): void

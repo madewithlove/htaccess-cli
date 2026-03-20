@@ -5,6 +5,8 @@ namespace Madewithlove;
 use Http\Adapter\Guzzle7\Client;
 use Http\Factory\Guzzle\ServerRequestFactory;
 use Madewithlove\Htaccess\TableRenderer;
+use Madewithlove\HtaccessApiClient\HtaccessClient;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -35,7 +37,7 @@ final class HtaccessCommandTest extends TestCase
         @unlink(getcwd() . '/tests/.htaccess');
     }
 
-    /** @test */
+    #[Test]
     public function it does not run without url argument(): void
     {
         $commandTester = new CommandTester($this->command);
@@ -45,7 +47,7 @@ final class HtaccessCommandTest extends TestCase
         $commandTester->execute([]);
     }
 
-    /** @test */
+    #[Test]
     public function it does not run without htaccess file available(): void
     {
         $commandTester = new CommandTester($this->command);
@@ -57,7 +59,7 @@ final class HtaccessCommandTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it does run(): void
     {
         file_put_contents(
@@ -87,7 +89,7 @@ final class HtaccessCommandTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it has exit status zero when expected url is correct(): void
     {
         file_put_contents(
@@ -104,7 +106,7 @@ final class HtaccessCommandTest extends TestCase
         $this->assertEquals(0, $commandTester->getStatusCode());
     }
 
-    /** @test */
+    #[Test]
     public function it has exit status one when expected url is incorrect(): void
     {
         file_put_contents(
@@ -121,7 +123,7 @@ final class HtaccessCommandTest extends TestCase
         $this->assertEquals(1, $commandTester->getStatusCode());
     }
 
-    /** @test */
+    #[Test]
     public function it is possible to share a test run(): void
     {
         file_put_contents(
@@ -141,7 +143,7 @@ final class HtaccessCommandTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it can specify a custom path to the htaccess file(): void
     {
         file_put_contents(
@@ -161,7 +163,7 @@ final class HtaccessCommandTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it does mark an unsupported line as potentially invalid(): void
     {
         file_put_contents(
@@ -181,7 +183,7 @@ final class HtaccessCommandTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it supports http referrer(): void
     {
         file_put_contents(
@@ -201,7 +203,7 @@ final class HtaccessCommandTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it supports server name(): void
     {
         file_put_contents(
@@ -221,7 +223,7 @@ final class HtaccessCommandTest extends TestCase
         );
     }
 
-    /** @test */
+    #[Test]
     public function it supports http user agent(): void
     {
         file_put_contents(

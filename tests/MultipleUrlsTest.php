@@ -5,6 +5,8 @@ namespace Madewithlove;
 use Http\Adapter\Guzzle7\Client;
 use Http\Factory\Guzzle\ServerRequestFactory;
 use Madewithlove\Htaccess\TableRenderer;
+use Madewithlove\HtaccessApiClient\HtaccessClient;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -43,7 +45,7 @@ final class MultipleUrlsTest extends TestCase
         @unlink(getcwd() . '/test-urls.yaml');
     }
 
-    /** @test */
+    #[Test]
     public function it does work if the passed url list is not available(): void
     {
         $commandTester = new CommandTester($this->command);
@@ -55,7 +57,7 @@ final class MultipleUrlsTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it throws when passing both a url and a url list(): void
     {
         $commandTester = new CommandTester($this->command);
@@ -68,7 +70,7 @@ final class MultipleUrlsTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function it does run with multiple urls(): void
     {
         file_put_contents(
@@ -99,7 +101,7 @@ final class MultipleUrlsTest extends TestCase
         $this->assertEquals(0, $commandTester->getStatusCode());
     }
 
-    /** @test */
+    #[Test]
     public function it renders status code with multiple urls(): void
     {
         file_put_contents(
@@ -126,7 +128,7 @@ final class MultipleUrlsTest extends TestCase
         $this->assertEquals(0, $commandTester->getStatusCode());
     }
 
-    /** @test */
+    #[Test]
     public function it has exit status one when at least one expected url is incorrect(): void
     {
         file_put_contents(

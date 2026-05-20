@@ -6,3 +6,5 @@ updates:
     interval: daily
     time: "03:30"
   versioning-strategy: widen
+  cooldown:
+    default-days: 7
